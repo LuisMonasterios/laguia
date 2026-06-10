@@ -1,44 +1,216 @@
 ---
 import BrandLogo from './BrandLogo.astro';
-import { SITE } from '../config';
+import Icon from './Icon.astro';
+import { SITE, FOOTER_LINKS, SOCIAL_LINKS } from '../config';
+
 const year = new Date().getFullYear();
 ---
 
 <footer class="footer">
-	<div class="container footer__inner">
+	<div class="container footer__grid">
 		<div class="footer__brand">
-			<BrandLogo size="sm" />
-			<p>{SITE.tagline}</p>
+			<BrandLogo size="md" />
+			<p class="footer__desc">{SITE.description}</p>
+			<div class="footer__social">
+				{
+					SOCIAL_LINKS.map((social) => (
+						<a
+							href={social.href}
+							class="footer__social-link"
+							aria-label={social.name}
+							target="_blank"
+							rel="noopener noreferrer"
+						>
+							<Icon name={social.icon} size={18} />
+						</a>
+					))
+				}
+			</div>
 		</div>
-		<p class="footer__copy">© {year} {SITE.name}. Contenido informativo sobre herramientas de IA.</p>
+
+		<div class="footer__col">
+			<h3>Explorar</h3>
+			<ul>
+				{FOOTER_LINKS.explore.map((link) => (
+					<li>
+						<a href={link.href}>{link.label}</a>
+					</li>
+				))}
+			</ul>
+		</div>
+
+		<div class="footer__col">
+			<h3>Legal</h3>
+			<ul>
+				{FOOTER_LINKS.legal.map((link) => (
+					<li>
+						<a href={link.href}>{link.label}</a>
+					</li>
+				))}
+			</ul>
+		</div>
+
+		<div class="footer__col footer__newsletter">
+			<h3>Newsletter</h3>
+			<p>Recibe las mejores herramientas de IA cada semana.</p>
+			<form class="footer__form" action="#" method="post">
+				<input type="email" placeholder="tu@email.com" aria-label="Email" required />
+				<button type="submit" class="btn btn-primary">Suscribirme</button>
+			</form>
+		</div>
+	</div>
+
+	<div class="container footer__bottom">
+		<p>© {year} {SITE.name}. Todos los derechos reservados.</p>
+		<p class="footer__affiliate">
+			<Icon name="shield" size={14} />
+			Enlaces de afiliado: podemos recibir comisión sin coste extra para ti.
+		</p>
 	</div>
 </footer>
 
 <style>
 	.footer {
 		margin-top: 4rem;
-		padding: 2.5rem 0;
-		border-top: 1px solid var(--color-border);
-		background: var(--color-surface);
+		background: var(--color-text);
+		color: rgb(255 255 255 / 85%);
 	}
 
-	.footer__inner {
+	.footer__grid {
+		display: grid;
+		grid-template-columns: 1.4fr 1fr 1fr 1.2fr;
+		gap: 2.5rem;
+		padding: 3.5rem 0 2.5rem;
+	}
+
+	.footer__desc {
+		margin: 1rem 0 1.25rem;
+		font-size: 0.9rem;
+		line-height: 1.6;
+		color: rgb(255 255 255 / 60%);
+		max-width: 280px;
+	}
+
+	.footer__social {
+		display: flex;
+		gap: 0.5rem;
+	}
+
+	.footer__social-link {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		width: 2.25rem;
+		height: 2.25rem;
+		border-radius: var(--radius-sm);
+		background: rgb(255 255 255 / 8%);
+		color: rgb(255 255 255 / 70%);
+		text-decoration: none;
+		transition: background var(--transition), color var(--transition);
+	}
+
+	.footer__social-link:hover {
+		background: var(--color-accent);
+		color: white;
+	}
+
+	.footer__col h3 {
+		margin: 0 0 1rem;
+		font-family: var(--font-sans);
+		font-size: 0.8rem;
+		font-weight: 700;
+		text-transform: uppercase;
+		letter-spacing: 0.08em;
+		color: white;
+	}
+
+	.footer__col ul {
+		list-style: none;
+		margin: 0;
+		padding: 0;
+	}
+
+	.footer__col li {
+		margin-bottom: 0.5rem;
+	}
+
+	.footer__col a {
+		color: rgb(255 255 255 / 60%);
+		text-decoration: none;
+		font-size: 0.9rem;
+		transition: color var(--transition);
+	}
+
+	.footer__col a:hover {
+		color: white;
+	}
+
+	.footer__newsletter p {
+		margin: 0 0 1rem;
+		font-size: 0.875rem;
+		color: rgb(255 255 255 / 55%);
+	}
+
+	.footer__form {
+		display: flex;
+		flex-direction: column;
+		gap: 0.5rem;
+	}
+
+	.footer__form input {
+		padding: 0.75rem 1rem;
+		border: 1px solid rgb(255 255 255 / 15%);
+		border-radius: var(--radius-sm);
+		background: rgb(255 255 255 / 6%);
+		color: white;
+		font: inherit;
+	}
+
+	.footer__form input::placeholder {
+		color: rgb(255 255 255 / 35%);
+	}
+
+	.footer__bottom {
 		display: flex;
 		flex-wrap: wrap;
-		align-items: center;
 		justify-content: space-between;
-		gap: 1rem;
-	}
-
-	.footer__brand p {
-		margin: 0.35rem 0 0;
-		font-size: 0.875rem;
-		color: var(--color-text-muted);
-	}
-
-	.footer__copy {
-		margin: 0;
+		gap: 0.75rem;
+		padding: 1.25rem 0 1.75rem;
+		border-top: 1px solid rgb(255 255 255 / 10%);
 		font-size: 0.8rem;
-		color: var(--color-text-muted);
+		color: rgb(255 255 255 / 45%);
+	}
+
+	.footer__bottom p {
+		margin: 0;
+	}
+
+	.footer__affiliate {
+		display: flex;
+		align-items: center;
+		gap: 0.35rem;
+	}
+
+	:global(.footer .logo) {
+		color: white;
+	}
+
+	:global(.footer .logo__la) {
+		color: rgb(255 255 255 / 50%);
+	}
+
+	@media (max-width: 900px) {
+		.footer__grid {
+			grid-template-columns: 1fr 1fr;
+		}
+		.footer__brand {
+			grid-column: 1 / -1;
+		}
+	}
+
+	@media (max-width: 520px) {
+		.footer__grid {
+			grid-template-columns: 1fr;
+		}
 	}
 </style>

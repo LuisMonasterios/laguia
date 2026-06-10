@@ -1,0 +1,75 @@
+---
+import PageLayout from '../layouts/PageLayout.astro';
+import { SITE } from '../config';
+---
+
+<PageLayout
+	title="Contacto"
+	description="Contacta con el equipo de La guIA. Sugerencias, colaboraciones y consultas."
+	breadcrumbs={[{ label: 'Contacto', href: '/contacto/' }]}
+>
+	<p>
+		¿Tienes alguna pregunta, sugerencia de herramienta para analizar o propuesta de
+		colaboración? Nos encantará leerte.
+	</p>
+
+	<h2>Email</h2>
+	<p>
+		Escríbenos a <a href={`mailto:${SITE.email}`}>{SITE.email}</a>. Respondemos en un plazo
+		habitual de 48–72 horas laborables.
+	</p>
+
+	<h2>Solicitar análisis de herramienta</h2>
+	<p>
+		Si buscas una comparativa que aún no hemos publicado (por ejemplo, «IA para abogados» o «IA
+		para contadores»), cuéntanos el tema y lo tendremos en cuenta para próximas guías.
+	</p>
+
+	<h2>Colaboraciones y afiliados</h2>
+	<p>
+		Si representas una herramienta de IA y quieres aparecer en nuestras comparativas, contáctanos.
+		Solo incluimos productos que hayamos probado y que aporten valor real a nuestros lectores.
+	</p>
+
+	<div class="contact-box">
+		<h3>Newsletter (próximamente)</h3>
+		<p>Recibe cada semana las mejores herramientas de IA directamente en tu email.</p>
+		<form class="contact-form" action="#" method="post">
+			<input type="email" placeholder="tu@email.com" aria-label="Email" required />
+			<button type="submit" class="btn btn-primary">Quiero suscribirme</button>
+		</form>
+	</div>
+</PageLayout>
+
+<style>
+	.contact-box {
+		margin-top: 2rem;
+		padding: 1.5rem;
+		background: var(--color-accent-soft);
+		border-radius: var(--radius-lg);
+		border: 1px solid #c7d2fe;
+	}
+
+	.contact-box h3 {
+		margin: 0 0 0.5rem;
+	}
+
+	.contact-box p {
+		margin: 0 0 1rem;
+	}
+
+	.contact-form {
+		display: flex;
+		gap: 0.5rem;
+		flex-wrap: wrap;
+	}
+
+	.contact-form input {
+		flex: 1;
+		min-width: 200px;
+		padding: 0.75rem 1rem;
+		border: 1px solid var(--color-border);
+		border-radius: var(--radius-sm);
+		font: inherit;
+	}
+</style>

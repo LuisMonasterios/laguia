@@ -1,0 +1,182 @@
+---
+import Icon from './Icon.astro';
+
+interface Props {
+	name: string;
+	title: string;
+	description: string;
+	rating: number;
+	price: string;
+	url: string;
+	affiliateUrl?: string;
+	image: string;
+	imageAlt: string;
+	pros: string[];
+}
+
+const {
+	name,
+	title,
+	description,
+	rating,
+	price,
+	url,
+	affiliateUrl,
+	image,
+	imageAlt,
+	pros,
+} = Astro.props;
+
+const link = affiliateUrl ?? url;
+const stars = Math.round(rating);
+---
+
+<div class="top-pick">
+	<div class="top-pick__badge">
+		<Icon name="star" size={16} />
+		Mejor opción 2026
+	</div>
+	<div class="top-pick__inner">
+		<div class="top-pick__image">
+			<img src={image} alt={imageAlt} width="280" height="180" loading="lazy" />
+		</div>
+		<div class="top-pick__content">
+			<h3 class="top-pick__title">{title}</h3>
+			<div class="top-pick__rating" aria-label={`Valoración ${rating} de 5`}>
+				{
+					Array.from({ length: 5 }).map((_, i) => (
+						<span class:list={['top-pick__star', i < stars && 'top-pick__star--on']}>★</span>
+					))
+				}
+				<span class="top-pick__score">{rating.toFixed(1)}/5</span>
+			</div>
+			<p class="top-pick__desc">{description}</p>
+			<ul class="top-pick__pros">
+				{pros.map((pro) => (
+					<li>
+						<Icon name="check" size={16} />
+						{pro}
+					</li>
+				))}
+			</ul>
+			<div class="top-pick__footer">
+				<span class="top-pick__price">{price}</span>
+				<a href={link} class="btn btn-affiliate" target="_blank" rel="noopener noreferrer sponsored">
+					Probar {name} →
+				</a>
+			</div>
+		</div>
+	</div>
+</div>
+
+<style>
+	.top-pick {
+		margin: 2rem 0;
+		border: 2px solid var(--color-accent);
+		border-radius: var(--radius-xl);
+		overflow: hidden;
+		background: var(--color-surface);
+		box-shadow: var(--shadow-md);
+	}
+
+	.top-pick__badge {
+		display: flex;
+		align-items: center;
+		gap: 0.5rem;
+		padding: 0.65rem 1.25rem;
+		background: var(--gradient-brand);
+		color: white;
+		font-size: 0.8rem;
+		font-weight: 700;
+		text-transform: uppercase;
+		letter-spacing: 0.06em;
+	}
+
+	.top-pick__inner {
+		display: grid;
+		grid-template-columns: 280px 1fr;
+		gap: 1.5rem;
+		padding: 1.5rem;
+	}
+
+	.top-pick__image img {
+		width: 100%;
+		height: 180px;
+		object-fit: cover;
+		border-radius: var(--radius-md);
+	}
+
+	.top-pick__title {
+		margin: 0 0 0.5rem;
+		font-size: 1.35rem;
+	}
+
+	.top-pick__rating {
+		display: flex;
+		align-items: center;
+		gap: 0.15rem;
+		margin-bottom: 0.75rem;
+	}
+
+	.top-pick__star {
+		color: #e2e8f0;
+		font-size: 1.1rem;
+	}
+
+	.top-pick__star--on {
+		color: var(--color-star);
+	}
+
+	.top-pick__score {
+		margin-left: 0.5rem;
+		font-size: 0.875rem;
+		font-weight: 600;
+		color: var(--color-text-muted);
+	}
+
+	.top-pick__desc {
+		margin: 0 0 1rem;
+		color: var(--color-text-muted);
+		line-height: 1.55;
+	}
+
+	.top-pick__pros {
+		list-style: none;
+		margin: 0 0 1.25rem;
+		padding: 0;
+	}
+
+	.top-pick__pros li {
+		display: flex;
+		align-items: flex-start;
+		gap: 0.5rem;
+		margin-bottom: 0.35rem;
+		font-size: 0.9rem;
+		color: var(--color-text);
+	}
+
+	.top-pick__pros :global(.icon) {
+		color: var(--color-success);
+		margin-top: 2px;
+	}
+
+	.top-pick__footer {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		gap: 1rem;
+		flex-wrap: wrap;
+	}
+
+	.top-pick__price {
+		font-weight: 700;
+		font-size: 1rem;
+		color: var(--color-success);
+	}
+
+	@media (max-width: 768px) {
+		.top-pick__inner {
+			grid-template-columns: 1fr;
+		}
+	}
+</style>

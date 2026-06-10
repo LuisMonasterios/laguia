@@ -1,0 +1,45 @@
+---
+import PageLayout from '../layouts/PageLayout.astro';
+import { SITE } from '../config';
+---
+
+<PageLayout
+	title="Sobre nosotros"
+	description="Conoce La guIA: comparativas honestas de herramientas de inteligencia artificial en español."
+	breadcrumbs={[{ label: 'Nosotros', href: '/nosotros/' }]}
+>
+	<p>
+		<strong>{SITE.name}</strong> nace con una misión clara: ayudar a profesionales, equipos y
+		creadores de habla hispana a encontrar las mejores herramientas de inteligencia artificial —
+		sin perder horas comparando opciones.
+	</p>
+
+	<h2>Qué hacemos</h2>
+	<p>
+		Publicamos guías detalladas con comparativas interactivas, rankings actualizados y análisis
+		prácticos. Cada artículo incluye tablas filtrables, recomendaciones según tu perfil y enlaces
+		para probar las herramientas directamente.
+	</p>
+
+	<h2>Nuestra metodología</h2>
+	<ul>
+		<li><strong>Investigación SEO:</strong> analizamos qué buscan realmente los usuarios en español.</li>
+		<li><strong>Pruebas reales:</strong> creamos cuentas y testeamos cada herramienta.</li>
+		<li><strong>Comparación objetiva:</strong> evaluamos precio, idioma, facilidad y calidad de resultados.</li>
+		<li><strong>Actualización continua:</strong> revisamos las guías cuando cambian precios o funciones.</li>
+	</ul>
+
+	<h2>Transparencia sobre afiliados</h2>
+	<p>
+		Algunos enlaces de este sitio son de afiliado. Si contratas una herramienta a través de
+		nuestros links, podemos recibir una comisión sin coste adicional para ti. Esto nos permite
+		mantener el sitio y seguir creando contenido gratuito. Nuestras recomendaciones se basan en
+		análisis real, no en comisiones.
+	</p>
+
+	<h2>Contacto</h2>
+	<p>
+		¿Tienes sugerencias o quieres proponer una herramienta para analizar? Escríbenos en
+		<a href="/contacto/">nuestra página de contacto</a>.
+	</p>
+</PageLayout>

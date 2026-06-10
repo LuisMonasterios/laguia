@@ -1,0 +1,177 @@
+---
+import Icon from './Icon.astro';
+
+interface Props {
+	rank: number;
+	name: string;
+	description: string;
+	rating: number;
+	price: string;
+	url: string;
+	affiliateUrl?: string;
+	image: string;
+	imageAlt: string;
+	badge?: string;
+	highlight?: boolean;
+}
+
+const {
+	rank,
+	name,
+	description,
+	rating,
+	price,
+	url,
+	affiliateUrl,
+	image,
+	imageAlt,
+	badge,
+	highlight = false,
+} = Astro.props;
+
+const link = affiliateUrl ?? url;
+---
+
+<article class:list={['product-item', highlight && 'product-item--highlight']}>
+	<div class="product-item__rank">{rank}</div>
+	<div class="product-item__image">
+		<img src={image} alt={imageAlt} width="120" height="80" loading="lazy" />
+	</div>
+	<div class="product-item__body">
+		<div class="product-item__header">
+			<h3 class="product-item__name">{name}</h3>
+			{badge && <span class="product-item__badge">{badge}</span>}
+		</div>
+		<p class="product-item__desc">{description}</p>
+		<div class="product-item__meta">
+			<span class="product-item__rating">
+				<Icon name="star" size={14} />
+				{rating.toFixed(1)}
+			</span>
+			<span class="product-item__price">{price}</span>
+		</div>
+	</div>
+	<div class="product-item__action">
+		<a href={link} class="btn btn-affiliate" target="_blank" rel="noopener noreferrer sponsored">
+			Ver oferta
+		</a>
+	</div>
+</article>
+
+<style>
+	.product-item {
+		display: grid;
+		grid-template-columns: auto 120px 1fr auto;
+		gap: 1.25rem;
+		align-items: center;
+		padding: 1.25rem;
+		background: var(--color-surface);
+		border: 1px solid var(--color-border);
+		border-radius: var(--radius-lg);
+		margin-bottom: 1rem;
+		transition: box-shadow var(--transition), border-color var(--transition);
+	}
+
+	.product-item:hover {
+		box-shadow: var(--shadow-md);
+		border-color: #c7d2fe;
+	}
+
+	.product-item--highlight {
+		border-color: var(--color-accent);
+		background: linear-gradient(135deg, #fafbff 0%, #fff 100%);
+	}
+
+	.product-item__rank {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		width: 2rem;
+		height: 2rem;
+		border-radius: 50%;
+		background: var(--color-accent-soft);
+		color: var(--color-accent-dark);
+		font-weight: 800;
+		font-size: 0.9rem;
+	}
+
+	.product-item--highlight .product-item__rank {
+		background: var(--gradient-brand);
+		color: white;
+	}
+
+	.product-item__image img {
+		width: 120px;
+		height: 80px;
+		object-fit: cover;
+		border-radius: var(--radius-sm);
+	}
+
+	.product-item__header {
+		display: flex;
+		align-items: center;
+		gap: 0.5rem;
+		flex-wrap: wrap;
+		margin-bottom: 0.35rem;
+	}
+
+	.product-item__name {
+		margin: 0;
+		font-size: 1.05rem;
+		font-family: var(--font-sans);
+		font-weight: 700;
+	}
+
+	.product-item__badge {
+		font-size: 0.65rem;
+		font-weight: 700;
+		text-transform: uppercase;
+		padding: 0.2rem 0.5rem;
+		border-radius: 999px;
+		background: #fef3c7;
+		color: #92400e;
+	}
+
+	.product-item__desc {
+		margin: 0 0 0.5rem;
+		font-size: 0.875rem;
+		color: var(--color-text-muted);
+		line-height: 1.45;
+	}
+
+	.product-item__meta {
+		display: flex;
+		align-items: center;
+		gap: 1rem;
+		font-size: 0.85rem;
+	}
+
+	.product-item__rating {
+		display: flex;
+		align-items: center;
+		gap: 0.25rem;
+		font-weight: 700;
+		color: var(--color-star);
+	}
+
+	.product-item__price {
+		font-weight: 600;
+		color: var(--color-success);
+	}
+
+	@media (max-width: 768px) {
+		.product-item {
+			grid-template-columns: auto 1fr;
+			grid-template-rows: auto auto;
+		}
+		.product-item__image {
+			display: none;
+		}
+		.product-item__action {
+			grid-column: 1 / -1;
+		}
+		.product-item__action .btn {
+			width: 100%;
+		}
+	}
+</style>

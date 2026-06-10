@@ -3,133 +3,448 @@ import { getCollection } from 'astro:content';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import ArticleCard from '../components/ArticleCard.astro';
 import BrandLogo from '../components/BrandLogo.astro';
+import Icon from '../components/Icon.astro';
 import { SITE, CATEGORIES } from '../config';
 
 const articulos = (await getCollection('articulos', ({ data }) => !data.draft)).sort(
 	(a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
 );
+const featured = articulos.find((a) => a.data.featured) ?? articulos[0];
+const rest = articulos.filter((a) => a.id !== featured?.id);
 ---
 
 <BaseLayout>
+	<!-- Hero -->
 	<section class="hero">
-		<div class="container hero__inner">
-			<BrandLogo size="lg" />
-			<p class="hero__tagline">{SITE.tagline}</p>
-			<p class="hero__desc">{SITE.description}</p>
-			<a href="#articulos" class="btn btn-primary">Explorar guías</a>
+		<div class="container hero__grid">
+			<div class="hero__content animate-fade-up">
+				<BrandLogo size="lg" />
+				<h1 class="hero__title">
+					Encuentra la <span class="hero__highlight">IA perfecta</span> para tu trabajo
+				</h1>
+				<p class="hero__desc">{SITE.description}</p>
+				<div class="hero__actions">
+					<a href="#articulos" class="btn btn-primary">Explorar guías</a>
+					<a href="/nosotros/" class="btn btn-secondary">Cómo analizamos</a>
+				</div>
+				<div class="hero__stats">
+					<div class="hero__stat">
+						<strong>8+</strong>
+						<span>Herramientas por guía</span>
+					</div>
+					<div class="hero__stat">
+						<strong>100%</strong>
+						<span>Análisis en español</span>
+					</div>
+					<div class="hero__stat">
+						<strong>Gratis</strong>
+						<span>Sin registro</span>
+					</div>
+				</div>
+			</div>
+			<div class="hero__visual">
+				<div class="hero__card">
+					<span class="hero__card-badge">⭐ Guía destacada</span>
+					{
+						featured && (
+							<>
+								<img
+									src={featured.data.image}
+									alt={featured.data.imageAlt}
+									width="480"
+									height="260"
+									loading="eager"
+								/>
+								<div class="hero__card-body">
+									<h3>{featured.data.title}</h3>
+									<a href={`/articulos/${featured.id}/`} class="hero__card-link">
+										Leer comparativa
+										<Icon name="arrow" size={16} />
+									</a>
+								</div>
+							</>
+						)
+					}
+				</div>
+			</div>
 		</div>
 	</section>
 
-	<section id="categorias" class="categories container">
-		<h2>Categorías</h2>
-		<div class="categories__grid">
+	<!-- How we work -->
+	<section class="method">
+		<div class="container">
+			<div class="section-header">
+				<span class="section-header__eyebrow">Metodología</span>
+				<h2 class="section-header__title">Cómo analizamos cada herramienta</h2>
+				<p class="section-header__desc">
+					No publicamos listas genéricas. Probamos cada IA, comparamos precios reales y
+					actualizamos las guías regularmente.
+				</p>
+			</div>
+			<div class="method__grid">
+				<div class="method__step">
+					<div class="method__icon"><Icon name="search" size={24} /></div>
+					<h3>1. Investigamos</h3>
+					<p>Analizamos volumen de búsqueda, competencia y demanda real en español.</p>
+				</div>
+				<div class="method__step">
+					<div class="method__icon"><Icon name="star" size={24} /></div>
+					<h3>2. Probamos</h3>
+					<p>Creamos cuentas, testeamos funciones y evaluamos resultados reales.</p>
+				</div>
+				<div class="method__step">
+					<div class="method__icon"><Icon name="check" size={24} /></div>
+					<h3>3. Comparamos</h3>
+					<p>Tablas interactivas con precio, idioma, valoración y casos de uso.</p>
+				</div>
+				<div class="method__step">
+					<div class="method__icon"><Icon name="shield" size={24} /></div>
+					<h3>4. Recomendamos</h3>
+					<p>Solo sugerimos herramientas que usaríamos nosotros mismos.</p>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<!-- Categories -->
+	<section id="categorias" class="categories">
+		<div class="container">
+			<div class="section-header">
+				<span class="section-header__eyebrow">Explorar</span>
+				<h2 class="section-header__title">Categorías de herramientas IA</h2>
+			</div>
+			<div class="categories__grid">
+				{
+					Object.entries(CATEGORIES).map(([key, cat]) => (
+						<a href="#articulos" class="categories__card" style={`--cat: ${cat.color}`}>
+							<div class="categories__icon">
+								<Icon name={cat.icon} size={28} />
+							</div>
+							<h3>{cat.label}</h3>
+							<p>{cat.description}</p>
+							<span class="categories__link">
+								Ver guías <Icon name="arrow" size={16} />
+							</span>
+						</a>
+					))
+				}
+			</div>
+		</div>
+	</section>
+
+	<!-- Articles -->
+	<section id="articulos" class="articles">
+		<div class="container">
+			<div class="section-header">
+				<span class="section-header__eyebrow">Guías actualizadas</span>
+				<h2 class="section-header__title">Comparativas y análisis</h2>
+				<p class="section-header__desc">
+					Cada guía incluye tabla interactiva, ranking y recomendación personalizada.
+				</p>
+			</div>
 			{
-				Object.entries(CATEGORIES).map(([key, cat]) => (
-					<div class="categories__item" style={`--cat-color: ${cat.color}`}>
-						<h3>{cat.label}</h3>
-						<p>
-							{key === 'productividad' && 'Presentaciones, textos, PDF y flujos de trabajo.'}
-							{key === 'profesiones' && 'IA para abogados, médicos, marketing y más.'}
-							{key === 'creatividad' && 'Imágenes, logos, vídeo y diseño.'}
-						</p>
+				articulos.length > 0 ? (
+					<div class="articles__grid">
+						{articulos.map((article) => (
+							<ArticleCard
+								title={article.data.title}
+								description={article.data.description}
+								slug={article.id}
+								category={article.data.category}
+								pubDate={article.data.pubDate}
+								image={article.data.image}
+								imageAlt={article.data.imageAlt}
+								readingTime={article.data.readingTime}
+								featured={article.data.featured}
+							/>
+						))}
 					</div>
-				))
+				) : (
+					<p class="articles__empty">Próximamente publicaremos nuevas guías.</p>
+				)
 			}
 		</div>
 	</section>
 
-	<section id="articulos" class="articles container">
-		<h2>Últimas guías</h2>
-		{
-			articulos.length > 0 ? (
-				<div class="articles__grid">
-					{articulos.map((article) => (
-						<ArticleCard
-							title={article.data.title}
-							description={article.data.description}
-							slug={article.id}
-							category={article.data.category}
-							pubDate={article.data.pubDate}
-						/>
-					))}
-				</div>
-			) : (
-				<p class="articles__empty">Próximamente publicaremos nuevas guías.</p>
-			)
-		}
+	<!-- CTA -->
+	<section class="cta">
+		<div class="container cta__inner">
+			<h2>¿No encuentras lo que buscas?</h2>
+			<p>Cuéntanos qué herramienta de IA necesitas y la analizaremos en próximas guías.</p>
+			<a href="/contacto/" class="btn btn-primary">Solicitar análisis</a>
+		</div>
 	</section>
 </BaseLayout>
 
 <style>
 	.hero {
-		padding: 4rem 0 3rem;
-		background: linear-gradient(180deg, #eef2ff 0%, var(--color-bg) 100%);
+		padding: 3.5rem 0 4rem;
+		background: var(--gradient-hero);
+		overflow: hidden;
 	}
 
-	.hero__inner {
-		max-width: 640px;
+	.hero__grid {
+		display: grid;
+		grid-template-columns: 1fr 1fr;
+		gap: 3rem;
+		align-items: center;
 	}
 
-	.hero__tagline {
-		margin: 1rem 0 0.5rem;
-		font-size: 1.25rem;
-		font-weight: 600;
-		color: var(--color-text);
+	.hero__title {
+		margin: 1.25rem 0 0.75rem;
+		font-size: clamp(2rem, 4.5vw, 3rem);
+		line-height: 1.12;
+	}
+
+	.hero__highlight {
+		background: var(--gradient-brand);
+		-webkit-background-clip: text;
+		background-clip: text;
+		color: transparent;
 	}
 
 	.hero__desc {
 		margin: 0 0 1.5rem;
-		font-size: 1.05rem;
+		font-size: 1.1rem;
 		color: var(--color-text-muted);
-		line-height: 1.6;
+		line-height: 1.65;
+		max-width: 480px;
+	}
+
+	.hero__actions {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 0.75rem;
+		margin-bottom: 2rem;
+	}
+
+	.hero__stats {
+		display: flex;
+		gap: 2rem;
+		flex-wrap: wrap;
+	}
+
+	.hero__stat strong {
+		display: block;
+		font-size: 1.35rem;
+		font-family: var(--font-display);
+		color: var(--color-accent-dark);
+	}
+
+	.hero__stat span {
+		font-size: 0.8rem;
+		color: var(--color-text-muted);
+	}
+
+	.hero__card {
+		background: white;
+		border-radius: var(--radius-xl);
+		overflow: hidden;
+		box-shadow: var(--shadow-lg);
+		border: 1px solid var(--color-border);
+	}
+
+	.hero__card-badge {
+		display: block;
+		padding: 0.65rem 1.25rem;
+		background: var(--gradient-brand);
+		color: white;
+		font-size: 0.75rem;
+		font-weight: 700;
+	}
+
+	.hero__card img {
+		width: 100%;
+		height: 220px;
+		object-fit: cover;
+	}
+
+	.hero__card-body {
+		padding: 1.25rem;
+	}
+
+	.hero__card-body h3 {
+		margin: 0 0 0.75rem;
+		font-size: 1.05rem;
+		line-height: 1.35;
+	}
+
+	.hero__card-link {
+		display: inline-flex;
+		align-items: center;
+		gap: 0.35rem;
+		font-weight: 700;
+		text-decoration: none;
+		color: var(--color-accent-dark);
+	}
+
+	.method {
+		padding: 4rem 0;
+		background: var(--color-surface);
+		border-block: 1px solid var(--color-border);
+	}
+
+	.method__grid {
+		display: grid;
+		grid-template-columns: repeat(4, 1fr);
+		gap: 1.5rem;
+	}
+
+	.method__step {
+		padding: 1.5rem;
+		border-radius: var(--radius-lg);
+		background: var(--color-bg);
+		border: 1px solid var(--color-border);
+	}
+
+	.method__icon {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		width: 3rem;
+		height: 3rem;
+		border-radius: var(--radius-md);
+		background: var(--color-accent-soft);
+		color: var(--color-accent-dark);
+		margin-bottom: 1rem;
+	}
+
+	.method__step h3 {
+		margin: 0 0 0.5rem;
+		font-size: 1rem;
+		font-family: var(--font-sans);
+	}
+
+	.method__step p {
+		margin: 0;
+		font-size: 0.875rem;
+		color: var(--color-text-muted);
+		line-height: 1.5;
 	}
 
 	.categories {
-		padding: 3rem 0;
-	}
-
-	.categories h2,
-	.articles h2 {
-		margin: 0 0 1.5rem;
-		font-size: 1.5rem;
+		padding: 4rem 0;
 	}
 
 	.categories__grid {
 		display: grid;
-		grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-		gap: 1rem;
+		grid-template-columns: repeat(3, 1fr);
+		gap: 1.25rem;
 	}
 
-	.categories__item {
-		padding: 1.25rem;
+	.categories__card {
+		display: block;
+		padding: 1.75rem;
 		background: var(--color-surface);
 		border: 1px solid var(--color-border);
-		border-left: 4px solid var(--cat-color);
+		border-radius: var(--radius-xl);
+		text-decoration: none;
+		color: inherit;
+		transition: transform var(--transition), box-shadow var(--transition), border-color var(--transition);
+	}
+
+	.categories__card:hover {
+		transform: translateY(-3px);
+		box-shadow: var(--shadow-md);
+		border-color: var(--cat);
+	}
+
+	.categories__icon {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		width: 3.25rem;
+		height: 3.25rem;
 		border-radius: var(--radius-md);
+		background: color-mix(in srgb, var(--cat) 12%, white);
+		color: var(--cat);
+		margin-bottom: 1rem;
 	}
 
-	.categories__item h3 {
+	.categories__card h3 {
 		margin: 0 0 0.35rem;
-		font-size: 1rem;
+		font-size: 1.15rem;
 	}
 
-	.categories__item p {
-		margin: 0;
+	.categories__card p {
+		margin: 0 0 1rem;
 		font-size: 0.9rem;
 		color: var(--color-text-muted);
 	}
 
+	.categories__link {
+		display: inline-flex;
+		align-items: center;
+		gap: 0.25rem;
+		font-size: 0.875rem;
+		font-weight: 700;
+		color: var(--cat);
+	}
+
 	.articles {
-		padding-bottom: 2rem;
+		padding: 4rem 0;
+		background: var(--color-bg-alt);
 	}
 
 	.articles__grid {
 		display: grid;
-		grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-		gap: 1.25rem;
+		grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+		gap: 1.5rem;
 	}
 
 	.articles__empty {
 		color: var(--color-text-muted);
+	}
+
+	.cta {
+		padding: 4rem 0;
+	}
+
+	.cta__inner {
+		text-align: center;
+		padding: 3rem 2rem;
+		background: var(--gradient-brand);
+		border-radius: var(--radius-xl);
+		color: white;
+	}
+
+	.cta__inner h2 {
+		margin: 0 0 0.5rem;
+		color: white;
+		font-size: clamp(1.5rem, 3vw, 2rem);
+	}
+
+	.cta__inner p {
+		margin: 0 0 1.5rem;
+		opacity: 0.9;
+		max-width: 480px;
+		margin-inline: auto;
+	}
+
+	.cta__inner .btn-primary {
+		background: white;
+		color: var(--color-accent-dark);
+	}
+
+	.cta__inner .btn-primary:hover {
+		color: var(--color-ia);
+	}
+
+	@media (max-width: 900px) {
+		.hero__grid {
+			grid-template-columns: 1fr;
+		}
+		.method__grid {
+			grid-template-columns: repeat(2, 1fr);
+		}
+		.categories__grid {
+			grid-template-columns: 1fr;
+		}
+	}
+
+	@media (max-width: 520px) {
+		.method__grid {
+			grid-template-columns: 1fr;
+		}
 	}
 </style>

@@ -1,5 +1,10 @@
 ---
 import BaseLayout from './BaseLayout.astro';
+import Breadcrumbs from '../components/Breadcrumbs.astro';
+import Sidebar from '../components/Sidebar.astro';
+import AffiliateDisclosure from '../components/AffiliateDisclosure.astro';
+import ShareButtons from '../components/ShareButtons.astro';
+import Icon from '../components/Icon.astro';
 import { SITE, CATEGORIES, type CategoryKey } from '../config';
 
 interface Props {
@@ -10,12 +15,33 @@ interface Props {
 	category: CategoryKey;
 	tags?: string[];
 	slug: string;
+	image: string;
+	imageAlt: string;
+	readingTime?: number;
+	affiliateDisclosure?: boolean;
 }
 
-const { title, description, pubDate, updatedDate, category, tags = [], slug } = Astro.props;
+const {
+	title,
+	description,
+	pubDate,
+	updatedDate,
+	category,
+	tags = [],
+	slug,
+	image,
+	imageAlt,
+	readingTime = 8,
+	affiliateDisclosure = true,
+} = Astro.props;
 
 const cat = CATEGORIES[category];
 const formattedDate = pubDate.toLocaleDateString('es', {
+	year: 'numeric',
+	month: 'long',
+	day: 'numeric',
+});
+const updatedFormatted = updatedDate?.toLocaleDateString('es', {
 	year: 'numeric',
 	month: 'long',
 	day: 'numeric',
@@ -27,75 +53,125 @@ const schema = {
 	'@type': 'Article',
 	headline: title,
 	description,
+	image: [image],
 	datePublished: pubDate.toISOString(),
 	dateModified: (updatedDate ?? pubDate).toISOString(),
-	author: {
-		'@type': 'Organization',
-		name: SITE.name,
-		url: SITE.url,
-	},
+	author: { '@type': 'Organization', name: SITE.name, url: SITE.url },
 	publisher: {
 		'@type': 'Organization',
 		name: SITE.name,
 		url: SITE.url,
 	},
-	mainEntityOfPage: {
-		'@type': 'WebPage',
-		'@id': articleUrl,
-	},
+	mainEntityOfPage: { '@type': 'WebPage', '@id': articleUrl },
 	inLanguage: 'es',
 	keywords: tags.join(', '),
+	articleSection: cat.label,
+};
+
+const breadcrumbSchema = {
+	'@context': 'https://schema.org',
+	'@type': 'BreadcrumbList',
+	itemListElement: [
+		{ '@type': 'ListItem', position: 1, name: 'Inicio', item: SITE.url },
+		{ '@type': 'ListItem', position: 2, name: 'Guías', item: `${SITE.url}/#articulos` },
+		{ '@type': 'ListItem', position: 3, name: title, item: articleUrl },
+	],
 };
 ---
 
-<BaseLayout title={title} description={description} ogType="article">
-	<article class="article">
-		<header class="article__header container">
-			<div class="article__meta">
-				<span class="badge">{cat.label}</span>
+<BaseLayout title={title} description={description} ogType="article" ogImage={image}>
+	<div class="container">
+		<Breadcrumbs items={[{ label: 'Guías', href: '/#articulos' }, { label: title, href: `#` }]} />
+
+		<header class="article-hero">
+			<div class="article-hero__meta">
+				<span class="badge" style={`background: ${cat.color}18; color: ${cat.color}`}>
+					{cat.label}
+				</span>
+				<span class="article-hero__time">
+					<Icon name="clock" size={16} />
+					{readingTime} min lectura
+				</span>
 				<time datetime={pubDate.toISOString()}>{formattedDate}</time>
+				{
+					updatedFormatted && (
+						<span class="article-hero__updated">Actualizado: {updatedFormatted}</span>
+					)
+				}
 			</div>
-			<h1 class="article__title">{title}</h1>
-			<p class="article__desc">{description}</p>
+			<h1 class="article-hero__title">{title}</h1>
+			<p class="article-hero__desc">{description}</p>
 		</header>
-		<div class="article__content container prose">
-			<slot />
+
+		<div class="article-hero__image">
+			<img src={image} alt={imageAlt} width="1200" height="500" loading="eager" />
 		</div>
-	</article>
+
+		{affiliateDisclosure && <AffiliateDisclosure />}
+
+		<div class="article-layout">
+			<div class="article-main prose">
+				<slot />
+				<ShareButtons title={title} url={articleUrl} />
+			</div>
+			<Sidebar slug={slug} category={cat.label} />
+		</div>
+	</div>
+
 	<script type="application/ld+json" set:html={JSON.stringify(schema)} />
+	<script type="application/ld+json" set:html={JSON.stringify(breadcrumbSchema)} />
 </BaseLayout>
 
 <style>
-	.article__header {
-		padding: 2.5rem 0 1.5rem;
-		max-width: 760px;
+	.article-hero {
+		padding: 1.5rem 0 1.25rem;
+		max-width: 800px;
 	}
 
-	.article__meta {
+	.article-hero__meta {
 		display: flex;
+		flex-wrap: wrap;
 		align-items: center;
-		gap: 1rem;
+		gap: 0.75rem 1rem;
 		margin-bottom: 1rem;
-		font-size: 0.875rem;
+		font-size: 0.85rem;
 		color: var(--color-text-muted);
 	}
 
-	.article__title {
-		margin: 0 0 0.75rem;
-		font-size: clamp(1.75rem, 4vw, 2.35rem);
-		line-height: 1.2;
-		letter-spacing: -0.02em;
+	.article-hero__time {
+		display: flex;
+		align-items: center;
+		gap: 0.35rem;
 	}
 
-	.article__desc {
+	.article-hero__updated {
+		font-size: 0.8rem;
+		color: var(--color-text-light, #8b93a7);
+	}
+
+	.article-hero__title {
+		margin: 0 0 0.75rem;
+		font-size: clamp(1.85rem, 4.5vw, 2.75rem);
+		line-height: 1.15;
+	}
+
+	.article-hero__desc {
 		margin: 0;
-		font-size: 1.1rem;
+		font-size: 1.15rem;
 		color: var(--color-text-muted);
 		line-height: 1.6;
 	}
 
-	.article__content {
-		padding-bottom: 3rem;
-		max-width: 760px;
+	.article-hero__image {
+		margin-bottom: 0.5rem;
+		border-radius: var(--radius-xl);
+		overflow: hidden;
+		box-shadow: var(--shadow-lg);
+	}
+
+	.article-hero__image img {
+		width: 100%;
+		height: clamp(220px, 40vw, 420px);
+		object-fit: cover;
 	}
 </style>

@@ -1,47 +1,160 @@
 ---
 import BrandLogo from './BrandLogo.astro';
+import Icon from './Icon.astro';
+import { NAV_ITEMS } from '../config';
+
+const currentPath = Astro.url.pathname;
 ---
 
 <header class="header">
 	<div class="container header__inner">
 		<BrandLogo />
+
 		<nav class="header__nav" aria-label="Principal">
-			<a href="/#articulos">Artículos</a>
-			<a href="/#categorias">Categorías</a>
+			{
+				NAV_ITEMS.map((item) => {
+					const isActive =
+						item.href === '/'
+							? currentPath === '/'
+							: currentPath.startsWith(item.href.replace('/#', '/'));
+					return (
+						<a href={item.href} class:list={['header__link', isActive && 'header__link--active']}>
+							<Icon name={item.icon} size={18} />
+							<span>{item.label}</span>
+						</a>
+					);
+				})
+			}
+		</nav>
+
+		<a href="/#articulos" class="btn btn-primary header__cta">Ver guías</a>
+
+		<button class="header__menu-btn" aria-label="Abrir menú" aria-expanded="false" id="menu-toggle">
+			<Icon name="menu" size={22} />
+		</button>
+	</div>
+
+	<div class="header__mobile" id="mobile-menu" hidden>
+		<nav class="header__mobile-nav">
+			{
+				NAV_ITEMS.map((item) => (
+					<a href={item.href} class="header__mobile-link">
+						<Icon name={item.icon} size={20} />
+						{item.label}
+					</a>
+				))
+			}
 		</nav>
 	</div>
 </header>
+
+<script>
+	const toggle = document.getElementById('menu-toggle');
+	const menu = document.getElementById('mobile-menu');
+	toggle?.addEventListener('click', () => {
+		const open = menu?.hasAttribute('hidden');
+		if (open) {
+			menu?.removeAttribute('hidden');
+			toggle?.setAttribute('aria-expanded', 'true');
+		} else {
+			menu?.setAttribute('hidden', '');
+			toggle?.setAttribute('aria-expanded', 'false');
+		}
+	});
+</script>
 
 <style>
 	.header {
 		position: sticky;
 		top: 0;
-		z-index: 50;
-		background: rgb(255 255 255 / 92%);
-		backdrop-filter: blur(10px);
+		z-index: 100;
+		background: rgb(255 255 255 / 88%);
+		backdrop-filter: blur(16px);
 		border-bottom: 1px solid var(--color-border);
 	}
 
 	.header__inner {
 		display: flex;
 		align-items: center;
-		justify-content: space-between;
-		min-height: 4rem;
+		gap: 1.5rem;
+		min-height: 4.25rem;
 	}
 
 	.header__nav {
 		display: flex;
-		gap: 1.5rem;
+		align-items: center;
+		gap: 0.25rem;
+		flex: 1;
 	}
 
-	.header__nav a {
+	.header__link {
+		display: inline-flex;
+		align-items: center;
+		gap: 0.45rem;
+		padding: 0.5rem 0.85rem;
+		border-radius: var(--radius-sm);
+		font-size: 0.9rem;
+		font-weight: 500;
+		color: var(--color-text-muted);
+		text-decoration: none;
+		transition: background var(--transition), color var(--transition);
+	}
+
+	.header__link:hover,
+	.header__link--active {
+		background: var(--color-accent-soft);
+		color: var(--color-accent-dark);
+	}
+
+	.header__cta {
+		font-size: 0.875rem;
+		padding: 0.65rem 1.1rem;
+	}
+
+	.header__menu-btn {
+		display: none;
+		background: none;
+		border: none;
+		padding: 0.5rem;
+		cursor: pointer;
+		color: var(--color-text);
+	}
+
+	.header__mobile {
+		border-top: 1px solid var(--color-border);
+		background: white;
+		padding: 1rem;
+	}
+
+	.header__mobile-nav {
+		display: flex;
+		flex-direction: column;
+		gap: 0.25rem;
+	}
+
+	.header__mobile-link {
+		display: flex;
+		align-items: center;
+		gap: 0.75rem;
+		padding: 0.85rem 1rem;
+		border-radius: var(--radius-sm);
 		text-decoration: none;
 		font-weight: 500;
-		font-size: 0.95rem;
-		color: var(--color-text-muted);
+		color: var(--color-text);
 	}
 
-	.header__nav a:hover {
-		color: var(--color-accent-dark);
+	.header__mobile-link:hover {
+		background: var(--color-accent-soft);
+	}
+
+	@media (max-width: 900px) {
+		.header__nav,
+		.header__cta {
+			display: none;
+		}
+		.header__menu-btn {
+			display: flex;
+			margin-left: auto;
+		}
 	}
 </style>

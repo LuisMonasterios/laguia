@@ -1,0 +1,71 @@
+---
+import PageLayout from '../layouts/PageLayout.astro';
+import { SITE } from '../config';
+---
+
+<PageLayout
+	title="Política de privacidad"
+	description="Política de privacidad de La guIA. Cómo tratamos tus datos personales en laguia.tech."
+	breadcrumbs={[{ label: 'Privacidad', href: '/privacidad/' }]}
+>
+	<p><em>Última actualización: junio de 2026</em></p>
+
+	<h2>1. Responsable del tratamiento</h2>
+	<ul>
+		<li><strong>Responsable:</strong> {SITE.name}</li>
+		<li><strong>Sitio web:</strong> {SITE.url}</li>
+		<li><strong>Email:</strong> <a href={`mailto:${SITE.email}`}>{SITE.email}</a></li>
+	</ul>
+
+	<h2>2. Datos que recopilamos</h2>
+	<p>Podemos recopilar las siguientes categorías de datos:</p>
+	<ul>
+		<li><strong>Datos de navegación:</strong> dirección IP, tipo de navegador, páginas visitadas, tiempo de permanencia (a través de cookies y herramientas analíticas).</li>
+		<li><strong>Datos de contacto:</strong> email, si nos escribes o te suscribes al newsletter.</li>
+		<li><strong>Datos de publicidad:</strong> Google AdSense y partners publicitarios pueden recopilar datos para mostrar anuncios personalizados.</li>
+	</ul>
+
+	<h2>3. Finalidad del tratamiento</h2>
+	<ul>
+		<li>Prestar y mejorar nuestros servicios de información.</li>
+		<li>Responder consultas enviadas a través del formulario de contacto.</li>
+		<li>Enviar newsletter (solo con tu consentimiento).</li>
+		<li>Mostrar publicidad relevante (Google AdSense).</li>
+		<li>Analizar el tráfico y comportamiento de usuarios (Google Analytics).</li>
+	</ul>
+
+	<h2>4. Base legal</h2>
+	<ul>
+		<li><strong>Consentimiento:</strong> cookies no esenciales, newsletter.</li>
+		<li><strong>Interés legítimo:</strong> mejora del sitio y análisis agregado.</li>
+		<li><strong>Ejecución de contrato:</strong> respuesta a solicitudes de contacto.</li>
+	</ul>
+
+	<h2>5. Conservación de datos</h2>
+	<p>
+		Los datos se conservarán mientras sea necesario para la finalidad para la que fueron
+		recogidos o mientras exista una obligación legal de conservarlos.
+	</p>
+
+	<h2>6. Destinatarios</h2>
+	<p>Podemos compartir datos con:</p>
+	<ul>
+		<li>Google LLC (Analytics, AdSense, Search Console)</li>
+		<li>Vercel Inc. (hosting)</li>
+		<li>Porkbun / registradores de dominio</li>
+		<li>Programas de afiliados de herramientas analizadas</li>
+	</ul>
+
+	<h2>7. Tus derechos</h2>
+	<p>
+		Puedes ejercer tus derechos de acceso, rectificación, supresión, oposición, limitación y
+		portabilidad escribiendo a <a href={`mailto:${SITE.email}`}>{SITE.email}</a>. También
+		puedes presentar una reclamación ante la Agencia Española de Protección de Datos (AEPD).
+	</p>
+
+	<h2>8. Menores de edad</h2>
+	<p>
+		Este sitio no está dirigido a menores de 16 años. No recopilamos intencionadamente datos
+		de menores.
+	</p>
+</PageLayout>

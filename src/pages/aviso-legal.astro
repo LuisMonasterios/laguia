@@ -1,0 +1,64 @@
+---
+import PageLayout from '../layouts/PageLayout.astro';
+import { SITE } from '../config';
+---
+
+<PageLayout
+	title="Aviso legal"
+	description="Aviso legal de La guIA. Información sobre el titular del sitio web laguia.tech."
+	breadcrumbs={[{ label: 'Aviso legal', href: '/aviso-legal/' }]}
+>
+	<p><em>Última actualización: junio de 2026</em></p>
+
+	<h2>1. Datos identificativos</h2>
+	<p>
+		En cumplimiento del artículo 10 de la Ley 34/2002, de 11 de julio, de Servicios de la
+		Sociedad de la Información y de Comercio Electrónico (LSSI-CE), se informa que el titular
+		de este sitio web es:
+	</p>
+	<ul>
+		<li><strong>Sitio web:</strong> {SITE.url}</li>
+		<li><strong>Nombre comercial:</strong> {SITE.name}</li>
+		<li><strong>Email de contacto:</strong> <a href={`mailto:${SITE.email}`}>{SITE.email}</a></li>
+	</ul>
+
+	<h2>2. Objeto</h2>
+	<p>
+		El presente aviso legal regula el acceso y uso del sitio web {SITE.url}, dedicado a la
+		publicación de guías, comparativas e información sobre herramientas de inteligencia
+		artificial.
+	</p>
+
+	<h2>3. Condiciones de uso</h2>
+	<p>
+		El acceso a este sitio implica la aceptación plena de las condiciones aquí descritas. El
+		usuario se compromete a utilizar el sitio de forma lícita y conforme a la buena fe.
+	</p>
+
+	<h2>4. Propiedad intelectual</h2>
+	<p>
+		Los contenidos de este sitio (textos, diseño, código, imágenes y logotipos) están
+		protegidos por derechos de propiedad intelectual. Queda prohibida su reproducción sin
+		autorización expresa del titular, salvo en los casos permitidos por la ley.
+	</p>
+
+	<h2>5. Enlaces de afiliado</h2>
+	<p>
+		Este sitio puede contener enlaces de afiliado a herramientas y servicios de terceros. El
+		titular puede recibir una comisión si el usuario contrata un servicio a través de dichos
+		enlaces, sin coste adicional para el usuario.
+	</p>
+
+	<h2>6. Exclusión de responsabilidad</h2>
+	<p>
+		La información publicada tiene carácter orientativo. No nos hacemos responsables de
+		decisiones tomadas por el usuario basándose exclusivamente en el contenido del sitio, ni
+		de cambios en precios, funciones o disponibilidad de las herramientas analizadas.
+	</p>
+
+	<h2>7. Legislación aplicable</h2>
+	<p>
+		El presente aviso legal se rige por la legislación española. Para cualquier controversia,
+		las partes se someterán a los juzgados y tribunales que correspondan.
+	</p>
+</PageLayout>

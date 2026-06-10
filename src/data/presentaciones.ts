@@ -1,5 +1,15 @@
 import type { ToolRow } from '../components/ComparisonTable';
 
+export const IMAGES = {
+	hero: 'https://images.unsplash.com/photo-1552664730-d307ca884978?w=1200&h=500&fit=crop',
+	gamma: 'https://images.unsplash.com/photo-1551434678-e076c223a692?w=400&h=260&fit=crop',
+	canva: 'https://images.unsplash.com/photo-1611224923853-80b023f02d71?w=400&h=260&fit=crop',
+	beautiful: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=400&h=260&fit=crop',
+	tome: 'https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=400&h=260&fit=crop',
+	slidesai: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=400&h=260&fit=crop',
+	google: 'https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=400&h=260&fit=crop',
+};
+
 export const presentationTools: ToolRow[] = [
 	{
 		name: 'Gamma',
@@ -51,18 +61,18 @@ export const presentationTools: ToolRow[] = [
 		price: 'Desde $0 / Pro $8/mes',
 		freeTier: true,
 		spanish: false,
-		bestFor: 'Presentaciones corporativas rápidas',
+		bestFor: 'Presentaciones corporativas',
 		rating: 4.2,
 		url: 'https://presentations.ai',
 	},
 	{
 		name: 'Microsoft Copilot',
-		price: 'Incluido en M365 / Copilot Pro',
+		price: 'M365 / Copilot Pro',
 		freeTier: false,
 		spanish: true,
 		bestFor: 'Usuarios de PowerPoint',
 		rating: 4.4,
-		url: 'https://microsoft.com/copilot',
+		url: 'https://www.microsoft.com/copilot',
 	},
 	{
 		name: 'Google Slides + Gemini',
@@ -75,25 +85,88 @@ export const presentationTools: ToolRow[] = [
 	},
 ];
 
+export const productList = [
+	{
+		rank: 1,
+		name: 'Gamma',
+		description:
+			'Genera presentaciones completas desde un prompt. La mejor relación velocidad, diseño y facilidad de uso.',
+		rating: 4.8,
+		price: 'Gratis / Pro $10/mes',
+		url: 'https://gamma.app',
+		image: IMAGES.gamma,
+		imageAlt: 'Interfaz de Gamma para crear presentaciones con IA',
+		badge: "Editor's choice",
+		highlight: true,
+	},
+	{
+		rank: 2,
+		name: 'Canva',
+		description:
+			'Ideal para equipos que necesitan diseño visual, plantillas y colaboración en tiempo real.',
+		rating: 4.7,
+		price: 'Gratis / Pro $12.99/mes',
+		url: 'https://www.canva.com',
+		image: IMAGES.canva,
+		imageAlt: 'Canva con funciones de IA para diseño de diapositivas',
+	},
+	{
+		rank: 3,
+		name: 'Beautiful.ai',
+		description:
+			'Diseño corporativo automático con reglas inteligentes que mantienen coherencia visual.',
+		rating: 4.5,
+		price: 'Desde $12/mes',
+		url: 'https://www.beautiful.ai',
+		image: IMAGES.beautiful,
+		imageAlt: 'Beautiful.ai presentaciones profesionales',
+	},
+	{
+		rank: 4,
+		name: 'SlidesAI',
+		description: 'Extensión para Google Slides. Convierte textos en diapositivas sin salir de Google.',
+		rating: 4.3,
+		price: 'Gratis / Pro $10/mes',
+		url: 'https://www.slidesai.io',
+		image: IMAGES.slidesai,
+		imageAlt: 'SlidesAI extensión Google Slides',
+	},
+	{
+		rank: 5,
+		name: 'Google Slides + Gemini',
+		description: 'Opción 100% gratuita integrada en el ecosistema Google Workspace.',
+		rating: 4.1,
+		price: 'Gratuito',
+		url: 'https://slides.google.com',
+		image: IMAGES.google,
+		imageAlt: 'Google Slides con asistente Gemini',
+	},
+];
+
 export const faqItems = [
 	{
 		question: '¿Cuál es la mejor IA para hacer presentaciones gratis?',
 		answer:
-			'Gamma y Google Slides con Gemini son las mejores opciones gratuitas en 2026. Gamma genera presentaciones completas desde un prompt; Google Slides es ideal si ya usas el ecosistema Google.',
+			'Gamma y Google Slides con Gemini son las mejores opciones gratuitas en 2026. Gamma genera presentaciones completas desde un prompt en minutos. Google Slides es ideal si ya trabajas con Google Workspace y necesitas colaboración sin coste.',
 	},
 	{
 		question: '¿Puedo usar IA para presentaciones en español?',
 		answer:
-			'Sí. Gamma, Canva, SlidesAI y Google Slides soportan español en la interfaz y en la generación de contenido. Verifica siempre el resultado antes de presentar.',
+			'Sí. Gamma, Canva, SlidesAI y Google Slides soportan español tanto en la interfaz como en la generación de contenido. Siempre revisa ortografía y terminología específica de tu sector antes de presentar.',
 	},
 	{
 		question: '¿La IA reemplaza a PowerPoint?',
 		answer:
-			'No del todo. La IA acelera la creación de borradores, diseño y textos, pero revisar datos, branding y narrativa sigue siendo responsabilidad tuya.',
+			'No completamente. La IA acelera borradores, diseño y redacción, pero la revisión de datos, branding corporativo y narrativa estratégica sigue siendo responsabilidad tuya. PowerPoint con Copilot sigue siendo relevante en entornos Microsoft.',
 	},
 	{
 		question: '¿Qué IA para presentaciones recomiendan para empresas?',
 		answer:
-			'Para equipos, Canva y Microsoft Copilot en PowerPoint ofrecen colaboración, permisos y coherencia de marca. Gamma funciona bien para equipos ágiles que priorizan velocidad.',
+			'Para equipos, Canva y Microsoft Copilot en PowerPoint ofrecen colaboración, permisos y coherencia de marca. Gamma funciona muy bien para equipos ágiles que priorizan velocidad de entrega.',
+	},
+	{
+		question: '¿Es seguro subir documentos confidenciales a estas herramientas?',
+		answer:
+			'Depende de la política de cada plataforma. Revisa los términos de privacidad y, para datos sensibles, usa planes empresariales con garantías de no entrenamiento o procesamiento local.',
 	},
 ];

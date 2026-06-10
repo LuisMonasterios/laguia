@@ -1,105 +1,162 @@
 ---
+import Icon from './Icon.astro';
+
 interface Props {
 	name: string;
 	price: string;
 	pros: string[];
 	cons: string[];
 	url: string;
+	affiliateUrl?: string;
 	badge?: string;
+	rating?: number;
 }
 
-const { name, price, pros, cons, url, badge } = Astro.props;
+const { name, price, pros, cons, url, affiliateUrl, badge, rating } = Astro.props;
+const link = affiliateUrl ?? url;
 ---
 
 <div class="tool-card">
 	<div class="tool-card__header">
-		<h3 class="tool-card__name">{name}</h3>
+		<div>
+			<h3 class="tool-card__name">{name}</h3>
+			{rating && (
+				<span class="tool-card__rating">
+					<Icon name="star" size={14} />
+					{rating.toFixed(1)}/5
+				</span>
+			)}
+		</div>
 		{badge && <span class="tool-card__badge">{badge}</span>}
 	</div>
 	<p class="tool-card__price">{price}</p>
 	<div class="tool-card__cols">
-		<div>
+		<div class="tool-card__col tool-card__col--pros">
 			<h4>Ventajas</h4>
 			<ul>
-				{pros.map((item) => <li>{item}</li>)}
+				{pros.map((item) => (
+					<li>
+						<Icon name="check" size={14} />
+						{item}
+					</li>
+				))}
 			</ul>
 		</div>
-		<div>
+		<div class="tool-card__col tool-card__col--cons">
 			<h4>Desventajas</h4>
 			<ul>
-				{cons.map((item) => <li>{item}</li>)}
+				{cons.map((item) => (
+					<li>{item}</li>
+				))}
 			</ul>
 		</div>
 	</div>
-	<a href={url} target="_blank" rel="noopener noreferrer" class="btn btn-secondary tool-card__link">
-		Visitar {name}
+	<a href={link} target="_blank" rel="noopener noreferrer sponsored" class="btn btn-affiliate tool-card__cta">
+		Probar {name} gratis →
 	</a>
 </div>
 
 <style>
 	.tool-card {
-		padding: 1.25rem;
+		padding: 1.5rem;
 		background: var(--color-surface);
 		border: 1px solid var(--color-border);
-		border-radius: var(--radius-md);
-		margin: 1.5rem 0;
+		border-radius: var(--radius-lg);
+		margin: 1.75rem 0;
+		box-shadow: var(--shadow-sm);
 	}
 
 	.tool-card__header {
 		display: flex;
-		align-items: center;
+		align-items: flex-start;
 		justify-content: space-between;
 		gap: 0.75rem;
 		margin-bottom: 0.25rem;
 	}
 
 	.tool-card__name {
-		margin: 0;
-		font-size: 1.15rem;
+		margin: 0 0 0.25rem;
+		font-size: 1.2rem;
+	}
+
+	.tool-card__rating {
+		display: inline-flex;
+		align-items: center;
+		gap: 0.25rem;
+		font-size: 0.85rem;
+		font-weight: 700;
+		color: var(--color-star);
 	}
 
 	.tool-card__badge {
-		font-size: 0.7rem;
+		font-size: 0.65rem;
 		font-weight: 700;
 		text-transform: uppercase;
-		padding: 0.2rem 0.5rem;
+		padding: 0.25rem 0.6rem;
 		border-radius: 999px;
-		background: #ecfdf5;
-		color: #047857;
+		background: linear-gradient(135deg, #fef3c7, #fde68a);
+		color: #92400e;
+		white-space: nowrap;
 	}
 
 	.tool-card__price {
-		margin: 0 0 1rem;
-		font-size: 0.9rem;
-		color: var(--color-text-muted);
+		margin: 0 0 1.15rem;
+		font-size: 0.95rem;
+		font-weight: 600;
+		color: var(--color-success);
 	}
 
 	.tool-card__cols {
 		display: grid;
 		grid-template-columns: 1fr 1fr;
-		gap: 1rem;
-		margin-bottom: 1rem;
+		gap: 1.25rem;
+		margin-bottom: 1.25rem;
 	}
 
-	.tool-card__cols h4 {
-		margin: 0 0 0.5rem;
-		font-size: 0.85rem;
+	.tool-card__col h4 {
+		margin: 0 0 0.6rem;
+		font-family: var(--font-sans);
+		font-size: 0.75rem;
+		font-weight: 700;
 		text-transform: uppercase;
-		letter-spacing: 0.04em;
+		letter-spacing: 0.05em;
 		color: var(--color-text-muted);
 	}
 
-	.tool-card__cols ul {
+	.tool-card__col ul {
 		margin: 0;
-		padding-left: 1.1rem;
-		font-size: 0.92rem;
+		padding: 0;
+		list-style: none;
+		font-size: 0.9rem;
 	}
 
-	.tool-card__cols li {
-		margin-bottom: 0.25rem;
+	.tool-card__col li {
+		display: flex;
+		align-items: flex-start;
+		gap: 0.4rem;
+		margin-bottom: 0.35rem;
+		line-height: 1.4;
 	}
 
-	.tool-card__link {
+	.tool-card__col--pros :global(.icon) {
+		color: var(--color-success);
+		flex-shrink: 0;
+		margin-top: 2px;
+	}
+
+	.tool-card__col--cons li {
+		color: var(--color-text-muted);
+		padding-left: 0;
+	}
+
+	.tool-card__col--cons li::before {
+		content: '−';
+		color: #f87171;
+		font-weight: 700;
+		margin-right: 0.35rem;
+	}
+
+	.tool-card__cta {
 		width: 100%;
 	}
 

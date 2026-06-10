@@ -1,0 +1,210 @@
+---
+interface Props {
+	slug?: string;
+	category?: string;
+}
+
+const { slug, category } = Astro.props;
+---
+
+<aside class="sidebar">
+	<div class="sidebar__widget sidebar__widget--sticky">
+		<h3 class="sidebar__title">En esta guía</h3>
+		<nav id="toc-nav" class="sidebar__toc" aria-label="Tabla de contenidos">
+			<p class="sidebar__toc-empty">Cargando índice…</p>
+		</nav>
+	</div>
+
+	<div class="sidebar__widget sidebar__widget--highlight">
+		<span class="sidebar__badge">⭐ Mejor opción</span>
+		<h3 class="sidebar__pick-title">Gamma</h3>
+		<p class="sidebar__pick-desc">La IA más completa para crear presentaciones profesionales en minutos.</p>
+		<a
+			href="https://gamma.app"
+			class="btn btn-affiliate"
+			target="_blank"
+			rel="noopener noreferrer sponsored"
+		>
+			Probar gratis
+		</a>
+	</div>
+
+	<div class="sidebar__widget">
+		<h3 class="sidebar__title">Categorías</h3>
+		<ul class="sidebar__cats">
+			<li><a href="/#categorias">Productividad</a></li>
+			<li><a href="/#categorias">Profesiones</a></li>
+			<li><a href="/#categorias">Creatividad</a></li>
+		</ul>
+	</div>
+
+	<div class="sidebar__widget sidebar__widget--newsletter">
+		<h3 class="sidebar__title">Newsletter IA</h3>
+		<p>Herramientas nuevas cada semana.</p>
+		<a href="/contacto/" class="btn btn-secondary sidebar__newsletter-btn">Suscribirme</a>
+	</div>
+</aside>
+
+<script>
+	function buildTOC() {
+		const nav = document.getElementById('toc-nav');
+		if (!nav) return;
+
+		const headings = document.querySelectorAll('.article-main h2, .article-main h3');
+		if (headings.length === 0) {
+			nav.innerHTML = '<p class="sidebar__toc-empty">Sin secciones</p>';
+			return;
+		}
+
+		const list = document.createElement('ul');
+		list.className = 'sidebar__toc-list';
+
+		headings.forEach((heading) => {
+			if (!heading.id) {
+				heading.id = heading.textContent
+					?.toLowerCase()
+					.normalize('NFD')
+					.replace(/[\u0300-\u036f]/g, '')
+					.replace(/[^a-z0-9]+/g, '-')
+					.replace(/(^-|-$)/g, '') ?? '';
+			}
+			const li = document.createElement('li');
+			li.className = heading.tagName === 'H3' ? 'sidebar__toc-h3' : '';
+			const a = document.createElement('a');
+			a.href = `#${heading.id}`;
+			a.textContent = heading.textContent ?? '';
+			li.appendChild(a);
+			list.appendChild(li);
+		});
+
+		nav.innerHTML = '';
+		nav.appendChild(list);
+	}
+
+	buildTOC();
+	document.addEventListener('astro:page-load', buildTOC);
+</script>
+
+<style>
+	.sidebar {
+		display: flex;
+		flex-direction: column;
+		gap: 1.25rem;
+	}
+
+	.sidebar__widget {
+		background: var(--color-surface);
+		border: 1px solid var(--color-border);
+		border-radius: var(--radius-lg);
+		padding: 1.25rem;
+	}
+
+	.sidebar__widget--sticky {
+		position: sticky;
+		top: 5.5rem;
+	}
+
+	.sidebar__widget--highlight {
+		background: linear-gradient(135deg, #f0fdf4 0%, #ecfdf5 100%);
+		border-color: #a7f3d0;
+	}
+
+	.sidebar__widget--newsletter {
+		background: var(--color-accent-soft);
+		border-color: #c7d2fe;
+	}
+
+	.sidebar__title {
+		margin: 0 0 0.85rem;
+		font-family: var(--font-sans);
+		font-size: 0.75rem;
+		font-weight: 700;
+		text-transform: uppercase;
+		letter-spacing: 0.08em;
+		color: var(--color-text-muted);
+	}
+
+	.sidebar__badge {
+		display: inline-block;
+		margin-bottom: 0.5rem;
+		font-size: 0.75rem;
+		font-weight: 600;
+		color: var(--color-success);
+	}
+
+	.sidebar__pick-title {
+		margin: 0 0 0.35rem;
+		font-size: 1.25rem;
+	}
+
+	.sidebar__pick-desc {
+		margin: 0 0 1rem;
+		font-size: 0.875rem;
+		color: var(--color-text-muted);
+		line-height: 1.5;
+	}
+
+	.sidebar__toc-empty {
+		margin: 0;
+		font-size: 0.85rem;
+		color: var(--color-text-muted);
+	}
+
+	:global(.sidebar__toc-list) {
+		list-style: none;
+		margin: 0;
+		padding: 0;
+	}
+
+	:global(.sidebar__toc-list li) {
+		margin-bottom: 0.35rem;
+	}
+
+	:global(.sidebar__toc-list a) {
+		display: block;
+		padding: 0.35rem 0.5rem;
+		border-radius: 6px;
+		font-size: 0.875rem;
+		color: var(--color-text-muted);
+		text-decoration: none;
+		transition: background var(--transition), color var(--transition);
+		border-left: 2px solid transparent;
+	}
+
+	:global(.sidebar__toc-list a:hover) {
+		background: var(--color-accent-soft);
+		color: var(--color-accent-dark);
+		border-left-color: var(--color-accent);
+	}
+
+	:global(.sidebar__toc-h3 a) {
+		padding-left: 1rem;
+		font-size: 0.8rem;
+	}
+
+	.sidebar__cats {
+		list-style: none;
+		margin: 0;
+		padding: 0;
+	}
+
+	.sidebar__cats li {
+		margin-bottom: 0.4rem;
+	}
+
+	.sidebar__cats a {
+		font-size: 0.9rem;
+		text-decoration: none;
+		font-weight: 500;
+	}
+
+	.sidebar__widget--newsletter p {
+		margin: 0 0 0.85rem;
+		font-size: 0.875rem;
+		color: var(--color-text-muted);
+	}
+
+	.sidebar__newsletter-btn {
+		width: 100%;
+	}
+</style>

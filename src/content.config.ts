@@ -11,6 +11,11 @@ const articulos = defineCollection({
 		category: z.enum(['productividad', 'profesiones', 'creatividad']),
 		tags: z.array(z.string()).default([]),
 		draft: z.boolean().default(false),
+		image: z.string(),
+		imageAlt: z.string(),
+		readingTime: z.number().default(8),
+		featured: z.boolean().default(false),
+		affiliateDisclosure: z.boolean().default(true),
 	}),
 });
 

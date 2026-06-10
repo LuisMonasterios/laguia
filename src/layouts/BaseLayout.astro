@@ -8,16 +8,39 @@ interface Props {
 	title?: string;
 	description?: string;
 	ogType?: string;
+	ogImage?: string;
+	noindex?: boolean;
 }
 
 const {
 	title = SITE.name,
 	description = SITE.description,
 	ogType = 'website',
+	ogImage = `${SITE.url}/og-default.jpg`,
+	noindex = false,
 } = Astro.props;
 
-const pageTitle = title === SITE.name ? title : `${title} | ${SITE.name}`;
+const pageTitle = title === SITE.name ? `${title} — ${SITE.tagline}` : `${title} | ${SITE.name}`;
 const canonical = new URL(Astro.url.pathname, SITE.url).href;
+
+const orgSchema = {
+	'@context': 'https://schema.org',
+	'@type': 'Organization',
+	name: SITE.name,
+	url: SITE.url,
+	description: SITE.description,
+	email: SITE.email,
+};
+
+const websiteSchema = {
+	'@context': 'https://schema.org',
+	'@type': 'WebSite',
+	name: SITE.name,
+	url: SITE.url,
+	description: SITE.description,
+	inLanguage: 'es',
+	publisher: { '@type': 'Organization', name: SITE.name },
+};
 ---
 
 <!doctype html>
@@ -27,6 +50,7 @@ const canonical = new URL(Astro.url.pathname, SITE.url).href;
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
 		<meta name="description" content={description} />
 		<meta name="author" content={SITE.author} />
+		<meta name="robots" content={noindex ? 'noindex, nofollow' : 'index, follow'} />
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 		<link rel="canonical" href={canonical} />
 		<meta property="og:type" content={ogType} />
@@ -35,10 +59,14 @@ const canonical = new URL(Astro.url.pathname, SITE.url).href;
 		<meta property="og:url" content={canonical} />
 		<meta property="og:site_name" content={SITE.name} />
 		<meta property="og:locale" content="es_ES" />
+		<meta property="og:image" content={ogImage} />
 		<meta name="twitter:card" content="summary_large_image" />
 		<meta name="twitter:title" content={pageTitle} />
 		<meta name="twitter:description" content={description} />
+		<meta name="twitter:image" content={ogImage} />
 		<title>{pageTitle}</title>
+		<script type="application/ld+json" set:html={JSON.stringify(orgSchema)} />
+		<script type="application/ld+json" set:html={JSON.stringify(websiteSchema)} />
 	</head>
 	<body>
 		<Header />
