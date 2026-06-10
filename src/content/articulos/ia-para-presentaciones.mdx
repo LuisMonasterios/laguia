@@ -1,0 +1,98 @@
+---
+title: 'Las 8 mejores IA para hacer presentaciones en 2026'
+description: 'Comparativa interactiva de herramientas de IA para presentaciones y diapositivas. Filtra por precio, idioma y encuentra la ideal para ti.'
+pubDate: 2026-06-09
+category: productividad
+tags: ['ia para presentaciones', 'ia para diapositivas', 'herramientas ia', 'productividad']
+draft: false
+---
+
+import ComparisonTable from '../../components/ComparisonTable.tsx';
+import ToolFinder from '../../components/ToolFinder.tsx';
+import ToolCard from '../../components/ToolCard.astro';
+import FAQ from '../../components/FAQ.astro';
+import { presentationTools, faqItems } from '../../data/presentaciones.ts';
+
+Crear presentaciones profesionales lleva horas: estructura, diseño, textos e imágenes. Las herramientas de **IA para presentaciones** reducen ese trabajo a minutos — pero no todas valen lo mismo.
+
+En esta guía comparamos **8 herramientas probadas**, con tabla interactiva, un quiz para elegir la tuya y análisis detallado de las mejores opciones.
+
+## ¿Qué es una IA para presentaciones?
+
+Es un software que genera diapositivas a partir de un prompt, un documento o un esquema. Puede crear textos, diseño, imágenes y estructura narrativa automáticamente.
+
+**Ideal si:** preparas muchas presentaciones, no eres diseñador o necesitas un borrador rápido para iterar.
+
+## Encuentra tu herramienta ideal
+
+Responde 2 preguntas y te recomendamos la mejor opción según tu perfil:
+
+<ToolFinder client:visible />
+
+## Comparativa completa (tabla interactiva)
+
+Filtra por plan gratuito, interfaz en español u ordena por valoración:
+
+<ComparisonTable client:visible tools={presentationTools} />
+
+## Análisis detallado de las mejores
+
+### 1. Gamma — La más completa
+
+<ToolCard
+	name="Gamma"
+	price="Gratis / Pro desde $10/mes"
+	badge="Editor's choice"
+	pros={[
+		'Genera presentaciones completas desde un prompt',
+		'Diseño moderno sin esfuerzo',
+		'Interfaz en español',
+		'Exporta a PDF y PowerPoint',
+	]}
+	cons={['Plan gratis limitado a créditos', 'Menos control que PowerPoint puro']}
+	url="https://gamma.app"
+/>
+
+**Cómo usarla:** escribe un tema («Marketing digital para pymes 2026»), elige tono y longitud, y Gamma genera slides con textos e imágenes. Luego editas slide por slide.
+
+### 2. Canva — Mejor para equipos y diseño
+
+<ToolCard
+	name="Canva"
+	price="Gratis / Pro $12.99/mes"
+	pros={[
+		'Magic Design genera layouts con IA',
+		'Colaboración en tiempo real',
+		'Miles de plantillas',
+		'Interfaz 100% en español',
+	]}
+	cons={['IA menos potente que Gamma para narrativa', 'Pro necesario para funciones avanzadas']}
+	url="https://www.canva.com"
+/>
+
+### 3. Google Slides + Gemini — La opción gratuita
+
+<ToolCard
+	name="Google Slides + Gemini"
+	price="Gratuito"
+	pros={['Completamente gratis', 'Integrado con Google Drive', 'Gemini ayuda con textos e ideas', 'Colaboración nativa']}
+	cons={['Diseño básico comparado con Gamma', 'Gemini requiere revisión manual']}
+	url="https://slides.google.com"
+/>
+
+## Cómo elegir la IA para presentaciones correcta
+
+| Si necesitas… | Elige |
+| --- | --- |
+| Velocidad máxima | Gamma |
+| Trabajo en equipo | Canva |
+| Diseño corporativo automático | Beautiful.ai |
+| Integración con Google | SlidesAI o Google Slides + Gemini |
+| Ya usas PowerPoint | Microsoft Copilot |
+| Presupuesto cero | Google Slides + Gemini |
+
+## Conclusión
+
+Para la mayoría de usuarios en 2026, **Gamma** es la mejor relación velocidad/calidad. Si trabajas en equipo o priorizas diseño visual, **Canva** gana. Y si buscas algo 100% gratis, **Google Slides con Gemini** es suficiente para empezar.
+
+<FAQ items={faqItems} />

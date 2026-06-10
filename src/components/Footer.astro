@@ -1,0 +1,44 @@
+---
+import BrandLogo from './BrandLogo.astro';
+import { SITE } from '../config';
+const year = new Date().getFullYear();
+---
+
+<footer class="footer">
+	<div class="container footer__inner">
+		<div class="footer__brand">
+			<BrandLogo size="sm" />
+			<p>{SITE.tagline}</p>
+		</div>
+		<p class="footer__copy">© {year} {SITE.name}. Contenido informativo sobre herramientas de IA.</p>
+	</div>
+</footer>
+
+<style>
+	.footer {
+		margin-top: 4rem;
+		padding: 2.5rem 0;
+		border-top: 1px solid var(--color-border);
+		background: var(--color-surface);
+	}
+
+	.footer__inner {
+		display: flex;
+		flex-wrap: wrap;
+		align-items: center;
+		justify-content: space-between;
+		gap: 1rem;
+	}
+
+	.footer__brand p {
+		margin: 0.35rem 0 0;
+		font-size: 0.875rem;
+		color: var(--color-text-muted);
+	}
+
+	.footer__copy {
+		margin: 0;
+		font-size: 0.8rem;
+		color: var(--color-text-muted);
+	}
+</style>

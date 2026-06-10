@@ -1,0 +1,65 @@
+---
+interface Props {
+	size?: 'sm' | 'md' | 'lg';
+}
+
+const { size = 'md' } = Astro.props;
+---
+
+<a href="/" class={`logo logo--${size}`} aria-label="La guIA — Inicio">
+	<span class="logo__la">La</span>
+	<span class="logo__gu">gu</span><span class="logo__ia">IA</span>
+</a>
+
+<style>
+	.logo {
+		display: inline-flex;
+		align-items: baseline;
+		text-decoration: none;
+		font-weight: 800;
+		letter-spacing: -0.03em;
+		color: var(--color-text);
+	}
+
+	.logo--sm {
+		font-size: 1.25rem;
+	}
+
+	.logo--md {
+		font-size: 1.5rem;
+	}
+
+	.logo--lg {
+		font-size: 2rem;
+	}
+
+	.logo__la {
+		font-weight: 600;
+		color: var(--color-text-muted);
+		margin-right: 0.15rem;
+	}
+
+	.logo__gu {
+		color: var(--color-text);
+	}
+
+	.logo__ia {
+		background: linear-gradient(135deg, var(--color-accent), var(--color-ia));
+		-webkit-background-clip: text;
+		background-clip: text;
+		color: transparent;
+		position: relative;
+	}
+
+	.logo__ia::after {
+		content: '✦';
+		position: absolute;
+		top: -0.55em;
+		right: -0.65em;
+		font-size: 0.45em;
+		color: var(--color-ia);
+		background: none;
+		-webkit-background-clip: unset;
+		background-clip: unset;
+	}
+</style>

@@ -1,0 +1,111 @@
+---
+interface Props {
+	name: string;
+	price: string;
+	pros: string[];
+	cons: string[];
+	url: string;
+	badge?: string;
+}
+
+const { name, price, pros, cons, url, badge } = Astro.props;
+---
+
+<div class="tool-card">
+	<div class="tool-card__header">
+		<h3 class="tool-card__name">{name}</h3>
+		{badge && <span class="tool-card__badge">{badge}</span>}
+	</div>
+	<p class="tool-card__price">{price}</p>
+	<div class="tool-card__cols">
+		<div>
+			<h4>Ventajas</h4>
+			<ul>
+				{pros.map((item) => <li>{item}</li>)}
+			</ul>
+		</div>
+		<div>
+			<h4>Desventajas</h4>
+			<ul>
+				{cons.map((item) => <li>{item}</li>)}
+			</ul>
+		</div>
+	</div>
+	<a href={url} target="_blank" rel="noopener noreferrer" class="btn btn-secondary tool-card__link">
+		Visitar {name}
+	</a>
+</div>
+
+<style>
+	.tool-card {
+		padding: 1.25rem;
+		background: var(--color-surface);
+		border: 1px solid var(--color-border);
+		border-radius: var(--radius-md);
+		margin: 1.5rem 0;
+	}
+
+	.tool-card__header {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		gap: 0.75rem;
+		margin-bottom: 0.25rem;
+	}
+
+	.tool-card__name {
+		margin: 0;
+		font-size: 1.15rem;
+	}
+
+	.tool-card__badge {
+		font-size: 0.7rem;
+		font-weight: 700;
+		text-transform: uppercase;
+		padding: 0.2rem 0.5rem;
+		border-radius: 999px;
+		background: #ecfdf5;
+		color: #047857;
+	}
+
+	.tool-card__price {
+		margin: 0 0 1rem;
+		font-size: 0.9rem;
+		color: var(--color-text-muted);
+	}
+
+	.tool-card__cols {
+		display: grid;
+		grid-template-columns: 1fr 1fr;
+		gap: 1rem;
+		margin-bottom: 1rem;
+	}
+
+	.tool-card__cols h4 {
+		margin: 0 0 0.5rem;
+		font-size: 0.85rem;
+		text-transform: uppercase;
+		letter-spacing: 0.04em;
+		color: var(--color-text-muted);
+	}
+
+	.tool-card__cols ul {
+		margin: 0;
+		padding-left: 1.1rem;
+		font-size: 0.92rem;
+	}
+
+	.tool-card__cols li {
+		margin-bottom: 0.25rem;
+	}
+
+	.tool-card__link {
+		width: 100%;
+	}
+
+	@media (max-width: 600px) {
+		.tool-card__cols {
+			grid-template-columns: 1fr;
+		}
+	}
+</style>

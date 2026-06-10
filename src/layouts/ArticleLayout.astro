@@ -1,0 +1,101 @@
+---
+import BaseLayout from './BaseLayout.astro';
+import { SITE, CATEGORIES, type CategoryKey } from '../config';
+
+interface Props {
+	title: string;
+	description: string;
+	pubDate: Date;
+	updatedDate?: Date;
+	category: CategoryKey;
+	tags?: string[];
+	slug: string;
+}
+
+const { title, description, pubDate, updatedDate, category, tags = [], slug } = Astro.props;
+
+const cat = CATEGORIES[category];
+const formattedDate = pubDate.toLocaleDateString('es', {
+	year: 'numeric',
+	month: 'long',
+	day: 'numeric',
+});
+const articleUrl = new URL(`/articulos/${slug}/`, SITE.url).href;
+
+const schema = {
+	'@context': 'https://schema.org',
+	'@type': 'Article',
+	headline: title,
+	description,
+	datePublished: pubDate.toISOString(),
+	dateModified: (updatedDate ?? pubDate).toISOString(),
+	author: {
+		'@type': 'Organization',
+		name: SITE.name,
+		url: SITE.url,
+	},
+	publisher: {
+		'@type': 'Organization',
+		name: SITE.name,
+		url: SITE.url,
+	},
+	mainEntityOfPage: {
+		'@type': 'WebPage',
+		'@id': articleUrl,
+	},
+	inLanguage: 'es',
+	keywords: tags.join(', '),
+};
+---
+
+<BaseLayout title={title} description={description} ogType="article">
+	<article class="article">
+		<header class="article__header container">
+			<div class="article__meta">
+				<span class="badge">{cat.label}</span>
+				<time datetime={pubDate.toISOString()}>{formattedDate}</time>
+			</div>
+			<h1 class="article__title">{title}</h1>
+			<p class="article__desc">{description}</p>
+		</header>
+		<div class="article__content container prose">
+			<slot />
+		</div>
+	</article>
+	<script type="application/ld+json" set:html={JSON.stringify(schema)} />
+</BaseLayout>
+
+<style>
+	.article__header {
+		padding: 2.5rem 0 1.5rem;
+		max-width: 760px;
+	}
+
+	.article__meta {
+		display: flex;
+		align-items: center;
+		gap: 1rem;
+		margin-bottom: 1rem;
+		font-size: 0.875rem;
+		color: var(--color-text-muted);
+	}
+
+	.article__title {
+		margin: 0 0 0.75rem;
+		font-size: clamp(1.75rem, 4vw, 2.35rem);
+		line-height: 1.2;
+		letter-spacing: -0.02em;
+	}
+
+	.article__desc {
+		margin: 0;
+		font-size: 1.1rem;
+		color: var(--color-text-muted);
+		line-height: 1.6;
+	}
+
+	.article__content {
+		padding-bottom: 3rem;
+		max-width: 760px;
+	}
+</style>

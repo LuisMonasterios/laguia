@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://laguia.tech/sitemap-index.xml

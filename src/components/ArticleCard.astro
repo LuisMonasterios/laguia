@@ -1,0 +1,84 @@
+---
+import type { CategoryKey } from '../config';
+import { CATEGORIES } from '../config';
+
+interface Props {
+	title: string;
+	description: string;
+	slug: string;
+	category: CategoryKey;
+	pubDate: Date;
+}
+
+const { title, description, slug, category, pubDate } = Astro.props;
+const cat = CATEGORIES[category];
+const formattedDate = pubDate.toLocaleDateString('es', {
+	year: 'numeric',
+	month: 'long',
+	day: 'numeric',
+});
+---
+
+<article class="card">
+	<a href={`/articulos/${slug}/`} class="card__link">
+		<div class="card__meta">
+			<span class="badge" style={`--badge-color: ${cat.color}`}>{cat.label}</span>
+			<time datetime={pubDate.toISOString()}>{formattedDate}</time>
+		</div>
+		<h2 class="card__title">{title}</h2>
+		<p class="card__desc">{description}</p>
+		<span class="card__cta">Leer guía →</span>
+	</a>
+</article>
+
+<style>
+	.card {
+		background: var(--color-surface);
+		border: 1px solid var(--color-border);
+		border-radius: var(--radius-lg);
+		box-shadow: var(--shadow-sm);
+		transition: transform 0.2s ease, box-shadow 0.2s ease;
+	}
+
+	.card:hover {
+		transform: translateY(-3px);
+		box-shadow: var(--shadow-md);
+	}
+
+	.card__link {
+		display: block;
+		padding: 1.5rem;
+		text-decoration: none;
+		color: inherit;
+		height: 100%;
+	}
+
+	.card__meta {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		gap: 0.75rem;
+		margin-bottom: 0.75rem;
+		font-size: 0.8rem;
+		color: var(--color-text-muted);
+	}
+
+	.card__title {
+		margin: 0 0 0.5rem;
+		font-size: 1.2rem;
+		line-height: 1.35;
+	}
+
+	.card__desc {
+		margin: 0 0 1rem;
+		font-size: 0.95rem;
+		color: var(--color-text-muted);
+		line-height: 1.5;
+	}
+
+	.card__cta {
+		font-weight: 600;
+		font-size: 0.9rem;
+		color: var(--color-accent-dark);
+	}
+</style>

@@ -1,0 +1,135 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import ArticleCard from '../components/ArticleCard.astro';
+import BrandLogo from '../components/BrandLogo.astro';
+import { SITE, CATEGORIES } from '../config';
+
+const articulos = (await getCollection('articulos', ({ data }) => !data.draft)).sort(
+	(a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
+);
+---
+
+<BaseLayout>
+	<section class="hero">
+		<div class="container hero__inner">
+			<BrandLogo size="lg" />
+			<p class="hero__tagline">{SITE.tagline}</p>
+			<p class="hero__desc">{SITE.description}</p>
+			<a href="#articulos" class="btn btn-primary">Explorar guías</a>
+		</div>
+	</section>
+
+	<section id="categorias" class="categories container">
+		<h2>Categorías</h2>
+		<div class="categories__grid">
+			{
+				Object.entries(CATEGORIES).map(([key, cat]) => (
+					<div class="categories__item" style={`--cat-color: ${cat.color}`}>
+						<h3>{cat.label}</h3>
+						<p>
+							{key === 'productividad' && 'Presentaciones, textos, PDF y flujos de trabajo.'}
+							{key === 'profesiones' && 'IA para abogados, médicos, marketing y más.'}
+							{key === 'creatividad' && 'Imágenes, logos, vídeo y diseño.'}
+						</p>
+					</div>
+				))
+			}
+		</div>
+	</section>
+
+	<section id="articulos" class="articles container">
+		<h2>Últimas guías</h2>
+		{
+			articulos.length > 0 ? (
+				<div class="articles__grid">
+					{articulos.map((article) => (
+						<ArticleCard
+							title={article.data.title}
+							description={article.data.description}
+							slug={article.id}
+							category={article.data.category}
+							pubDate={article.data.pubDate}
+						/>
+					))}
+				</div>
+			) : (
+				<p class="articles__empty">Próximamente publicaremos nuevas guías.</p>
+			)
+		}
+	</section>
+</BaseLayout>
+
+<style>
+	.hero {
+		padding: 4rem 0 3rem;
+		background: linear-gradient(180deg, #eef2ff 0%, var(--color-bg) 100%);
+	}
+
+	.hero__inner {
+		max-width: 640px;
+	}
+
+	.hero__tagline {
+		margin: 1rem 0 0.5rem;
+		font-size: 1.25rem;
+		font-weight: 600;
+		color: var(--color-text);
+	}
+
+	.hero__desc {
+		margin: 0 0 1.5rem;
+		font-size: 1.05rem;
+		color: var(--color-text-muted);
+		line-height: 1.6;
+	}
+
+	.categories {
+		padding: 3rem 0;
+	}
+
+	.categories h2,
+	.articles h2 {
+		margin: 0 0 1.5rem;
+		font-size: 1.5rem;
+	}
+
+	.categories__grid {
+		display: grid;
+		grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+		gap: 1rem;
+	}
+
+	.categories__item {
+		padding: 1.25rem;
+		background: var(--color-surface);
+		border: 1px solid var(--color-border);
+		border-left: 4px solid var(--cat-color);
+		border-radius: var(--radius-md);
+	}
+
+	.categories__item h3 {
+		margin: 0 0 0.35rem;
+		font-size: 1rem;
+	}
+
+	.categories__item p {
+		margin: 0;
+		font-size: 0.9rem;
+		color: var(--color-text-muted);
+	}
+
+	.articles {
+		padding-bottom: 2rem;
+	}
+
+	.articles__grid {
+		display: grid;
+		grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+		gap: 1.25rem;
+	}
+
+	.articles__empty {
+		color: var(--color-text-muted);
+	}
+</style>
