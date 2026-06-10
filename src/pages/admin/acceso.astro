@@ -1,0 +1,112 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+---
+
+<BaseLayout title="Acceso administrativo" description="Panel de acceso admin de La guIA" noindex={true}>
+	<section class="login">
+		<div class="login__card">
+			<h1>Acceso administrativo</h1>
+			<p>Introduce tu clave de administrador para editar artículos.</p>
+			<form id="admin-login-form" class="login__form">
+				<label for="admin-password">Contraseña</label>
+				<input
+					type="password"
+					id="admin-password"
+					name="password"
+					autocomplete="current-password"
+					required
+					placeholder="Tu clave admin"
+				/>
+				<p id="login-error" class="login__error" hidden>Contraseña incorrecta.</p>
+				<button type="submit" class="btn btn-primary">Entrar</button>
+			</form>
+			<p class="login__hint">
+				También puedes usar el <a href="/admin/">Panel CMS</a> para editar contenido visualmente.
+			</p>
+		</div>
+	</section>
+</BaseLayout>
+
+<script>
+	const STORAGE_KEY = 'laguia-admin-session';
+	// Clave por defecto — cámbiala en Vercel: PUBLIC_ADMIN_PASSWORD
+	const ADMIN_PASSWORD = import.meta.env.PUBLIC_ADMIN_PASSWORD || 'laguia-admin-2026';
+
+	document.getElementById('admin-login-form')?.addEventListener('submit', (e) => {
+		e.preventDefault();
+		const input = document.getElementById('admin-password');
+		const error = document.getElementById('login-error');
+		const password = input?.value ?? '';
+
+		if (password === ADMIN_PASSWORD) {
+			sessionStorage.setItem(STORAGE_KEY, 'active');
+			window.location.href = '/';
+		} else {
+			if (error) error.hidden = false;
+		}
+	});
+</script>
+
+<style>
+	.login {
+		min-height: 60vh;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		padding: 2rem 1rem;
+	}
+
+	.login__card {
+		width: min(100%, 400px);
+		padding: 2rem;
+		background: white;
+		border: 1px solid var(--color-border);
+		border-radius: var(--radius-xl);
+		box-shadow: var(--shadow-md);
+	}
+
+	.login__card h1 {
+		margin: 0 0 0.5rem;
+		font-size: 1.5rem;
+	}
+
+	.login__card > p {
+		margin: 0 0 1.5rem;
+		color: var(--color-text-muted);
+		font-size: 0.95rem;
+	}
+
+	.login__form label {
+		display: block;
+		margin-bottom: 0.35rem;
+		font-size: 0.85rem;
+		font-weight: 600;
+	}
+
+	.login__form input {
+		width: 100%;
+		padding: 0.75rem 1rem;
+		margin-bottom: 0.75rem;
+		border: 1px solid var(--color-border);
+		border-radius: var(--radius-sm);
+		font: inherit;
+	}
+
+	.login__form .btn {
+		width: 100%;
+		margin-top: 0.5rem;
+	}
+
+	.login__error {
+		margin: 0 0 0.5rem;
+		color: #dc2626;
+		font-size: 0.85rem;
+	}
+
+	.login__hint {
+		margin: 1.25rem 0 0;
+		font-size: 0.85rem;
+		color: var(--color-text-muted);
+		text-align: center;
+	}
+</style>

@@ -9,6 +9,12 @@ export const SITE = {
 	email: 'contacto@laguia.tech',
 } as const;
 
+export const GITHUB = {
+	repo: 'LuisMonasterios/laguia',
+	branch: 'main',
+	editBase: 'https://github.com/LuisMonasterios/laguia/edit/main',
+} as const;
+
 export const CATEGORIES = {
 	productividad: {
 		label: 'Productividad',
@@ -51,6 +57,7 @@ export const FOOTER_LINKS = {
 		{ href: '/#articulos', label: 'Todas las guías' },
 		{ href: '/nosotros/', label: 'Sobre nosotros' },
 		{ href: '/contacto/', label: 'Contacto' },
+		{ href: '/sitemap-index.xml', label: 'Sitemap XML' },
 	],
 } as const;
 

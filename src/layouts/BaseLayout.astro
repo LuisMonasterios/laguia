@@ -2,6 +2,7 @@
 import '../styles/global.css';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
+import AdminBar from '../components/AdminBar.astro';
 import { SITE } from '../config';
 
 interface Props {
@@ -10,14 +11,18 @@ interface Props {
 	ogType?: string;
 	ogImage?: string;
 	noindex?: boolean;
+	editSlug?: string;
+	githubEditUrl?: string;
 }
 
 const {
 	title = SITE.name,
 	description = SITE.description,
 	ogType = 'website',
-	ogImage = `${SITE.url}/og-default.jpg`,
+	ogImage = `${SITE.url}/favicon.svg`,
 	noindex = false,
+	editSlug,
+	githubEditUrl,
 } = Astro.props;
 
 const pageTitle = title === SITE.name ? `${title} — ${SITE.tagline}` : `${title} | ${SITE.name}`;
@@ -53,6 +58,7 @@ const websiteSchema = {
 		<meta name="robots" content={noindex ? 'noindex, nofollow' : 'index, follow'} />
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 		<link rel="canonical" href={canonical} />
+		<link rel="sitemap" href="/sitemap-index.xml" />
 		<meta property="og:type" content={ogType} />
 		<meta property="og:title" content={pageTitle} />
 		<meta property="og:description" content={description} />
@@ -69,6 +75,7 @@ const websiteSchema = {
 		<script type="application/ld+json" set:html={JSON.stringify(websiteSchema)} />
 	</head>
 	<body>
+		<AdminBar editSlug={editSlug} githubEditUrl={githubEditUrl} />
 		<Header />
 		<main>
 			<slot />
@@ -76,3 +83,13 @@ const websiteSchema = {
 		<Footer />
 	</body>
 </html>
+
+<style is:global>
+	body.admin-logged-in {
+		padding-top: 2.75rem;
+	}
+
+	body.admin-logged-in .header {
+		top: 2.75rem;
+	}
+</style>

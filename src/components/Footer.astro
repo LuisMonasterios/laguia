@@ -60,6 +60,10 @@ const year = new Date().getFullYear();
 		</div>
 	</div>
 
+	<div class="container footer__admin">
+		<a href="/admin/acceso/">Acceso admin</a>
+	</div>
+
 	<div class="container footer__bottom">
 		<p>© {year} {SITE.name}. Todos los derechos reservados.</p>
 		<p class="footer__affiliate">
@@ -189,6 +193,21 @@ const year = new Date().getFullYear();
 		display: flex;
 		align-items: center;
 		gap: 0.35rem;
+	}
+
+	.footer__admin {
+		padding-bottom: 0.75rem;
+		text-align: right;
+	}
+
+	.footer__admin a {
+		font-size: 0.7rem;
+		color: rgb(255 255 255 / 25%);
+		text-decoration: none;
+	}
+
+	.footer__admin a:hover {
+		color: rgb(255 255 255 / 50%);
 	}
 
 	:global(.footer .logo) {

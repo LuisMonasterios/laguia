@@ -1,0 +1,136 @@
+---
+interface Props {
+	editSlug?: string;
+	githubEditUrl?: string;
+}
+
+const { editSlug, githubEditUrl } = Astro.props;
+---
+
+<div id="admin-bar" class="admin-bar" hidden>
+	<div class="admin-bar__inner">
+		<span class="admin-bar__label">La guIA Admin</span>
+		<div class="admin-bar__actions">
+			{
+				githubEditUrl && (
+					<a href={githubEditUrl} target="_blank" rel="noopener noreferrer" class="admin-bar__btn">
+						✏️ Editar artículo
+					</a>
+				)
+			}
+			<a href="/admin/" class="admin-bar__btn admin-bar__btn--primary">Panel CMS</a>
+			<a href="/" class="admin-bar__btn">Ver sitio</a>
+			<button type="button" id="admin-logout" class="admin-bar__btn admin-bar__btn--ghost">
+				Cerrar sesión
+			</button>
+		</div>
+	</div>
+</div>
+
+<script define:vars={{ editSlug }}>
+	const STORAGE_KEY = 'laguia-admin-session';
+
+	function showBar() {
+		const bar = document.getElementById('admin-bar');
+		if (bar) bar.hidden = false;
+		document.body.classList.add('admin-logged-in');
+	}
+
+	function hideBar() {
+		const bar = document.getElementById('admin-bar');
+		if (bar) bar.hidden = true;
+		document.body.classList.remove('admin-logged-in');
+		sessionStorage.removeItem(STORAGE_KEY);
+	}
+
+	if (sessionStorage.getItem(STORAGE_KEY) === 'active') {
+		showBar();
+	}
+
+	document.getElementById('admin-logout')?.addEventListener('click', hideBar);
+
+	document.addEventListener('astro:page-load', () => {
+		if (sessionStorage.getItem(STORAGE_KEY) === 'active') showBar();
+	});
+</script>
+
+<style>
+	.admin-bar {
+		position: fixed;
+		top: 0;
+		left: 0;
+		right: 0;
+		z-index: 9999;
+		background: #0b1220;
+		color: white;
+		font-size: 0.85rem;
+		box-shadow: 0 2px 12px rgb(0 0 0 / 25%);
+	}
+
+	.admin-bar__inner {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		gap: 1rem;
+		padding: 0.5rem 1.25rem;
+		max-width: 1400px;
+		margin: 0 auto;
+		flex-wrap: wrap;
+	}
+
+	.admin-bar__label {
+		font-weight: 700;
+		color: #a5b4fc;
+		font-size: 0.8rem;
+		text-transform: uppercase;
+		letter-spacing: 0.06em;
+	}
+
+	.admin-bar__actions {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 0.5rem;
+	}
+
+	.admin-bar__btn {
+		display: inline-flex;
+		align-items: center;
+		gap: 0.35rem;
+		padding: 0.35rem 0.85rem;
+		border-radius: 6px;
+		background: rgb(255 255 255 / 10%);
+		color: white;
+		text-decoration: none;
+		font-weight: 600;
+		font-size: 0.8rem;
+		border: none;
+		cursor: pointer;
+		font-family: inherit;
+		transition: background 0.15s;
+	}
+
+	.admin-bar__btn:hover {
+		background: rgb(255 255 255 / 18%);
+		color: white;
+	}
+
+	.admin-bar__btn--primary {
+		background: var(--color-accent, #6366f1);
+	}
+
+	.admin-bar__btn--primary:hover {
+		background: #4f46e5;
+	}
+
+	.admin-bar__btn--ghost {
+		background: transparent;
+		color: rgb(255 255 255 / 55%);
+	}
+
+	@media (max-width: 600px) {
+		.admin-bar__inner {
+			flex-direction: column;
+			align-items: flex-start;
+		}
+	}
+</style>

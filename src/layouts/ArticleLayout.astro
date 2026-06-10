@@ -5,7 +5,7 @@ import Sidebar from '../components/Sidebar.astro';
 import AffiliateDisclosure from '../components/AffiliateDisclosure.astro';
 import ShareButtons from '../components/ShareButtons.astro';
 import Icon from '../components/Icon.astro';
-import { SITE, CATEGORIES, type CategoryKey } from '../config';
+import { SITE, CATEGORIES, GITHUB, type CategoryKey } from '../config';
 
 interface Props {
 	title: string;
@@ -47,6 +47,7 @@ const updatedFormatted = updatedDate?.toLocaleDateString('es', {
 	day: 'numeric',
 });
 const articleUrl = new URL(`/articulos/${slug}/`, SITE.url).href;
+const githubEditUrl = `${GITHUB.editBase}/src/content/articulos/${slug}.mdx`;
 
 const schema = {
 	'@context': 'https://schema.org',
@@ -61,6 +62,7 @@ const schema = {
 		'@type': 'Organization',
 		name: SITE.name,
 		url: SITE.url,
+		logo: { '@type': 'ImageObject', url: `${SITE.url}/favicon.svg` },
 	},
 	mainEntityOfPage: { '@type': 'WebPage', '@id': articleUrl },
 	inLanguage: 'es',
@@ -77,9 +79,26 @@ const breadcrumbSchema = {
 		{ '@type': 'ListItem', position: 3, name: title, item: articleUrl },
 	],
 };
+
+const webPageSchema = {
+	'@context': 'https://schema.org',
+	'@type': 'WebPage',
+	'@id': articleUrl,
+	name: title,
+	description,
+	inLanguage: 'es',
+	isPartOf: { '@type': 'WebSite', name: SITE.name, url: SITE.url },
+};
 ---
 
-<BaseLayout title={title} description={description} ogType="article" ogImage={image}>
+<BaseLayout
+	title={title}
+	description={description}
+	ogType="article"
+	ogImage={image}
+	editSlug={slug}
+	githubEditUrl={githubEditUrl}
+>
 	<div class="container">
 		<Breadcrumbs items={[{ label: 'Guías', href: '/#articulos' }, { label: title, href: `#` }]} />
 
@@ -107,11 +126,10 @@ const breadcrumbSchema = {
 			<img src={image} alt={imageAlt} width="1200" height="500" loading="eager" />
 		</div>
 
-		{affiliateDisclosure && <AffiliateDisclosure />}
-
 		<div class="article-layout">
 			<div class="article-main prose">
 				<slot />
+				{affiliateDisclosure && <AffiliateDisclosure />}
 				<ShareButtons title={title} url={articleUrl} />
 			</div>
 			<Sidebar slug={slug} category={cat.label} />
@@ -120,12 +138,13 @@ const breadcrumbSchema = {
 
 	<script type="application/ld+json" set:html={JSON.stringify(schema)} />
 	<script type="application/ld+json" set:html={JSON.stringify(breadcrumbSchema)} />
+	<script type="application/ld+json" set:html={JSON.stringify(webPageSchema)} />
 </BaseLayout>
 
 <style>
 	.article-hero {
 		padding: 1.5rem 0 1.25rem;
-		max-width: 800px;
+		width: 100%;
 	}
 
 	.article-hero__meta {
@@ -153,20 +172,23 @@ const breadcrumbSchema = {
 		margin: 0 0 0.75rem;
 		font-size: clamp(1.85rem, 4.5vw, 2.75rem);
 		line-height: 1.15;
+		max-width: none;
 	}
 
 	.article-hero__desc {
 		margin: 0;
-		font-size: 1.15rem;
+		font-size: clamp(1.05rem, 2vw, 1.2rem);
 		color: var(--color-text-muted);
 		line-height: 1.6;
+		max-width: none;
 	}
 
 	.article-hero__image {
-		margin-bottom: 0.5rem;
+		margin-bottom: 2rem;
 		border-radius: var(--radius-xl);
 		overflow: hidden;
 		box-shadow: var(--shadow-lg);
+		width: 100%;
 	}
 
 	.article-hero__image img {
