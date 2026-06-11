@@ -5,7 +5,7 @@ export const IMAGES = {
 	jasper: 'https://images.unsplash.com/photo-1551434678-e076c223a692?w=400&h=260&fit=crop',
 	copyai: 'https://images.unsplash.com/photo-1552664730-d307ca884978?w=400&h=260&fit=crop',
 	hubspot: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=400&h=260&fit=crop',
-	surfer: 'https://images.unsplash.com/photo-1432888622747-4ebee778fb6d?w=400&h=260&fit=crop',
+	surfer: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=400&h=260&fit=crop',
 };
 
 export const marketingTools: ToolRow[] = [
@@ -134,7 +134,7 @@ export const productList = [
 		rating: 4.3,
 		price: 'Gratis / Pro desde $16/mes',
 		url: 'https://writesonic.com',
-		image: IMAGES.copyai,
+		image: IMAGES.jasper,
 		imageAlt: 'Writesonic generador de contenido marketing',
 	},
 ];

@@ -5,7 +5,7 @@ export const IMAGES = {
 	looka: 'https://images.unsplash.com/photo-1561070791-2526d30994b5?w=400&h=260&fit=crop',
 	brandmark: 'https://images.unsplash.com/photo-1558655146-d09347e92766?w=400&h=260&fit=crop',
 	canva: 'https://images.unsplash.com/photo-1611224923853-80b023f02d71?w=400&h=260&fit=crop',
-	logoai: 'https://images.unsplash.com/photo-1634942537034-2531760ee1ec?w=400&h=260&fit=crop',
+	logoai: 'https://images.unsplash.com/photo-1572044162444-ad60f128bdea?w=400&h=260&fit=crop',
 };
 
 export const logosTools: ToolRow[] = [
@@ -134,7 +134,7 @@ export const productList = [
 		rating: 4.4,
 		price: 'Gratis / desde $4.99/mes',
 		url: 'https://firefly.adobe.com',
-		image: IMAGES.logoai,
+		image: IMAGES.brandmark,
 		imageAlt: 'Adobe Firefly diseño gráfico IA',
 	},
 ];

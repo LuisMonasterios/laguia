@@ -1,9 +1,9 @@
 import type { ToolRow } from '../components/ComparisonTable';
 
 export const IMAGES = {
-	hero: 'https://images.unsplash.com/photo-1589829545855-d41829af765e?w=1200&h=500&fit=crop',
+	hero: 'https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=1200&h=500&fit=crop',
 	harvey: 'https://images.unsplash.com/photo-1450101499163-c8848c66ca85?w=400&h=260&fit=crop',
-	spellbook: 'https://images.unsplash.com/photo-1505664194772-de5931159420?w=400&h=260&fit=crop',
+	spellbook: 'https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?w=400&h=260&fit=crop',
 	vlex: 'https://images.unsplash.com/photo-1521587760476-6c12a4b040da?w=400&h=260&fit=crop',
 	chatgpt: 'https://images.unsplash.com/photo-1677442136019-21780ecad995?w=400&h=260&fit=crop',
 };
