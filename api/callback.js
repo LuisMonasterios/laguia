@@ -6,16 +6,7 @@ function getRequestOrigin(req) {
 	return `${proto}://${host}`.replace(/\/$/, '');
 }
 
-function getAllowedOrigins(req) {
-	const defaults = ['www.laguia.tech', 'laguia.tech', 'localhost:4321', 'localhost:3000'];
-	const raw = process.env.ALLOWED_ORIGINS || defaults.join(',');
-	const fromEnv = raw.split(',').map((o) => o.trim()).filter(Boolean);
-	const host = (req.headers['x-forwarded-host'] || req.headers.host || '').split(':')[0];
-	return host && !fromEnv.includes(host) ? [...fromEnv, host] : fromEnv;
-}
-
-function loginScript(content, allowedOrigins) {
-	const contentJson = JSON.stringify(content);
+function loginScript(token, parentOrigin) {
 	return `<!doctype html>
 <html lang="es">
 <head>
@@ -26,42 +17,28 @@ function loginScript(content, allowedOrigins) {
 	<p id="status">Completando inicio de sesión…</p>
 	<script>
 (function () {
-	var content = ${contentJson};
-	var allowed = ${JSON.stringify(allowedOrigins)};
+	var token = ${JSON.stringify(token)};
+	var parentOrigin = ${JSON.stringify(parentOrigin)};
+	var payload = JSON.stringify({ token: token, provider: 'github' });
+	var msg = 'authorization:github:success:' + payload;
 	var sent = false;
 
-	function hostFromOrigin(origin) {
-		if (!origin) return '';
-		return origin.replace(/^https?:\\/\\//, '').split('/')[0];
-	}
-
-	function isAllowed(origin) {
-		var host = hostFromOrigin(origin);
-		if (!host) return false;
-		return allowed.some(function (entry) {
-			if (entry.indexOf('*') >= 0) {
-				var re = new RegExp('^' + entry.replace(/\\./g, '\\\\.').replace(/\\*/g, '[\\\\w-]+') + '$');
-				return re.test(host);
-			}
-			return entry === host;
-		});
-	}
-
-	function sendToken(targetOrigin) {
+	function sendToken(origin) {
 		if (sent || !window.opener) return;
 		sent = true;
-		var message =
-			'authorization:github:success:' + JSON.stringify(content);
-		window.opener.postMessage(message, targetOrigin || '*');
+		var targets = [origin, parentOrigin, window.location.origin, '*'].filter(Boolean);
+		var seen = {};
+		targets.forEach(function (target) {
+			if (seen[target]) return;
+			seen[target] = true;
+			try {
+				window.opener.postMessage(msg, target);
+			} catch (err) {}
+		});
 		document.getElementById('status').textContent = 'Sesión iniciada. Cerrando…';
 		setTimeout(function () {
 			window.close();
-		}, 400);
-	}
-
-	function receiveMessage(e) {
-		if (!isAllowed(e.origin)) return;
-		sendToken(e.origin);
+		}, 800);
 	}
 
 	if (!window.opener) {
@@ -70,13 +47,19 @@ function loginScript(content, allowedOrigins) {
 		return;
 	}
 
-	window.addEventListener('message', receiveMessage, false);
-	window.opener.postMessage('authorizing:github', '*');
+	// Protocolo Decap/Sveltia: el panel responde con "authorizing:github"
+	window.addEventListener(
+		'message',
+		function (e) {
+			if (e.data === 'authorizing:github') {
+				sendToken(e.origin);
+			}
+		},
+		false
+	);
 
-	// Fallback: algunos navegadores no completan el handshake a tiempo
-	setTimeout(function () {
-		sendToken('*');
-	}, 1200);
+	// Decap CMS: avisar al panel que el popup está listo
+	window.opener.postMessage('authorizing:github', '*');
 })();
 	</script>
 </body>
@@ -87,9 +70,8 @@ export default async function handler(req, res) {
 	const code = req.query?.code;
 	const clientId = process.env.GITHUB_CLIENT_ID || process.env.OAUTH_GITHUB_CLIENT_ID;
 	const clientSecret = process.env.GITHUB_CLIENT_SECRET || process.env.OAUTH_GITHUB_CLIENT_SECRET;
-	const siteOrigin = getRequestOrigin(req);
-	const redirectUri = `${siteOrigin}/api/callback`;
-	const allowedOrigins = getAllowedOrigins(req);
+	const parentOrigin = getRequestOrigin(req);
+	const redirectUri = `${parentOrigin}/api/callback`;
 
 	if (!code) {
 		res.status(400).send('Falta el código de autorización de GitHub.');
@@ -110,9 +92,9 @@ export default async function handler(req, res) {
 			},
 			body: JSON.stringify({
 				client_id: clientId,
-				redirect_uri: redirectUri,
 				client_secret: clientSecret,
 				code,
+				redirect_uri: redirectUri,
 			}),
 		});
 
@@ -121,12 +103,16 @@ export default async function handler(req, res) {
 		if (data.error) {
 			res
 				.status(401)
-				.send(`Error GitHub: ${data.error_description || data.error}. Redirect URI usada: ${redirectUri}`);
+				.send(`Error GitHub: ${data.error_description || data.error}. Redirect URI: ${redirectUri}`);
 			return;
 		}
 
-		const content = { token: data.access_token, provider: 'github' };
-		const html = loginScript(content, allowedOrigins);
+		if (!data.access_token) {
+			res.status(401).send('GitHub no devolvió un token de acceso.');
+			return;
+		}
+
+		const html = loginScript(data.access_token, parentOrigin);
 
 		res.setHeader('Content-Type', 'text/html; charset=utf-8');
 		res.status(200).send(html);
