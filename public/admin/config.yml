@@ -5,8 +5,9 @@ backend:
   name: github
   repo: LuisMonasterios/laguia
   branch: main
-  base_url: https://www.laguia.tech/api
-  auth_endpoint: auth
+  # IMPORTANTE: base_url = solo dominio (sin /api). Decap compara e.origin con este valor.
+  base_url: https://www.laguia.tech
+  auth_endpoint: api/auth
 
 media_folder: public/images/uploads
 public_folder: /images/uploads

@@ -42,18 +42,22 @@ function loginScript(token) {
 		return;
 	}
 
-	window.addEventListener('message', deliver, false);
+	// Decap CMS: avisar al panel y responder al handshake
+	window.addEventListener(
+		'message',
+		function (e) {
+			if (e.data === 'authorizing:github') {
+				deliver();
+			}
+		},
+		false
+	);
 
 	try {
 		window.opener.postMessage('authorizing:github', '*');
 	} catch (err) {}
 
-	setTimeout(deliver, 250);
-	setTimeout(deliver, 800);
-	setTimeout(function () {
-		deliver();
-		window.close();
-	}, 1500);
+	setTimeout(deliver, 400);
 })();
 	</script>
 </body>
