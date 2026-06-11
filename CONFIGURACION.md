@@ -48,6 +48,8 @@ Checklist para dejar el sitio 100% operativo. Marca cada paso al completarlo.
 | **Homepage URL** | `https://www.laguia.tech/admin/` |
 | **Authorization callback URL** | `https://www.laguia.tech/api/callback` |
 
+> **Importante:** Si entras al admin por `laguia.tech` (sin www), añade también en GitHub una segunda OAuth App con callback `https://laguia.tech/api/callback`, **o** usa siempre `https://www.laguia.tech/admin/` para evitar conflictos de dominio.
+
 4. Crea la app → **Generate a new client secret**
 5. Copia **Client ID** y **Client Secret** → pégalos en Vercel (Paso 1)
 
