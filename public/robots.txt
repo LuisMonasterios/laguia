@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://laguia.tech/sitemap-index.xml
+Sitemap: https://www.laguia.tech/sitemap-index.xml

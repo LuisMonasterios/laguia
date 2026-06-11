@@ -68,4 +68,15 @@ src/
 ├── layouts/        # BaseLayout, ArticleLayout
 ├── pages/          # Rutas
 └── styles/         # CSS global
+api/                # OAuth GitHub para Decap CMS (Vercel)
+public/admin/       # Panel CMS
 ```
+
+## Configuración pendiente
+
+Ver **[CONFIGURACION.md](./CONFIGURACION.md)** — checklist completo con:
+
+- Variables de entorno en Vercel (`PUBLIC_ADMIN_PASSWORD`, OAuth GitHub)
+- OAuth App en GitHub para el Panel CMS
+- Google Search Console + sitemap
+- AdSense, afiliados y redes (opcional)

@@ -1,15 +1,12 @@
 # Decap CMS — La guIA
-# Documentación: https://decapcms.org/docs/github-backend/
+# Docs: https://decapcms.org/docs/github-backend/
 
 backend:
   name: github
   repo: LuisMonasterios/laguia
   branch: main
-  # Para login con GitHub necesitas configurar OAuth:
-  # https://decapcms.org/docs/github-backend/
-  # Opción rápida: usar https://github.com/digitalsurgeons/decap-cms-github-auth-proxy
-
-local_backend: true
+  base_url: https://www.laguia.tech/api
+  auth_endpoint: auth
 
 media_folder: public/images/uploads
 public_folder: /images/uploads

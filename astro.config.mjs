@@ -7,7 +7,7 @@ import rehypeSlug from 'rehype-slug';
 
 // https://astro.build/config
 export default defineConfig({
-	site: 'https://laguia.tech',
+	site: 'https://www.laguia.tech',
 	trailingSlash: 'always',
 	integrations: [
 		mdx({ rehypePlugins: [rehypeSlug] }),
