@@ -1,11 +1,12 @@
 import type { ToolRow } from '../components/ComparisonTable';
+import { ARTICLE_IMAGES as IMG } from '../config/images';
 
 export const IMAGES = {
-	hero: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=1200&h=500&fit=crop',
-	jasper: 'https://images.unsplash.com/photo-1551434678-e076c223a692?w=400&h=260&fit=crop',
-	copyai: 'https://images.unsplash.com/photo-1552664730-d307ca884978?w=400&h=260&fit=crop',
-	hubspot: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=400&h=260&fit=crop',
-	surfer: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=400&h=260&fit=crop',
+	hero: IMG.marketingHero,
+	jasper: IMG.marketingTeam,
+	copyai: IMG.marketingMeeting,
+	hubspot: IMG.marketingAnalytics,
+	surfer: IMG.marketingCharts,
 };
 
 export const marketingTools: ToolRow[] = [

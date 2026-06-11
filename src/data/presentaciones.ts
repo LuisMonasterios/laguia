@@ -1,13 +1,14 @@
 import type { ToolRow } from '../components/ComparisonTable';
+import { ARTICLE_IMAGES as IMG } from '../config/images';
 
 export const IMAGES = {
-	hero: 'https://images.unsplash.com/photo-1552664730-d307ca884978?w=1200&h=500&fit=crop',
-	gamma: 'https://images.unsplash.com/photo-1551434678-e076c223a692?w=400&h=260&fit=crop',
-	canva: 'https://images.unsplash.com/photo-1611224923853-80b023f02d71?w=400&h=260&fit=crop',
-	beautiful: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=400&h=260&fit=crop',
-	tome: 'https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=400&h=260&fit=crop',
-	slidesai: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=400&h=260&fit=crop',
-	google: 'https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=400&h=260&fit=crop',
+	hero: IMG.presentacionesHero,
+	gamma: IMG.presentacionesGamma,
+	canva: IMG.logosCanva,
+	beautiful: IMG.marketingCharts,
+	tome: IMG.presentacionesSlides,
+	slidesai: IMG.marketingAnalytics,
+	google: IMG.presentacionesGoogle,
 };
 
 export const presentationTools: ToolRow[] = [

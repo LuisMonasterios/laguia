@@ -1,11 +1,12 @@
 import type { ToolRow } from '../components/ComparisonTable';
+import { ARTICLE_IMAGES as IMG } from '../config/images';
 
 export const IMAGES = {
-	hero: 'https://images.unsplash.com/photo-1626785774573-4b799315345d?w=1200&h=500&fit=crop',
-	looka: 'https://images.unsplash.com/photo-1561070791-2526d30994b5?w=400&h=260&fit=crop',
-	brandmark: 'https://images.unsplash.com/photo-1558655146-d09347e92766?w=400&h=260&fit=crop',
-	canva: 'https://images.unsplash.com/photo-1611224923853-80b023f02d71?w=400&h=260&fit=crop',
-	logoai: 'https://images.unsplash.com/photo-1572044162444-ad60f128bdea?w=400&h=260&fit=crop',
+	hero: IMG.logosHero,
+	looka: IMG.logosDesign,
+	brandmark: IMG.logosBrand,
+	canva: IMG.logosCanva,
+	logoai: IMG.logosCreative,
 };
 
 export const logosTools: ToolRow[] = [
