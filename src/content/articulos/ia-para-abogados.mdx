@@ -1,0 +1,185 @@
+---
+title: 'Las 8 mejores IA para abogados en 2026 (comparativa para despachos)'
+description: 'Análisis de 8 herramientas de IA para abogados: investigación jurídica, redacción de contratos, derecho español y productividad en despachos.'
+pubDate: 2026-06-09
+updatedDate: 2026-06-09
+category: profesiones
+tags:
+  - ia para abogados
+  - inteligencia artificial abogados
+  - ia legal
+  - herramientas ia
+  - despachos
+draft: false
+featured: false
+readingTime: 12
+image: 'https://images.unsplash.com/photo-1589829545855-d41829af765e?w=1200&h=500&fit=crop'
+imageAlt: 'Abogado utilizando herramientas de inteligencia artificial en su despacho'
+affiliateDisclosure: true
+---
+
+import ComparisonTable from '../../components/ComparisonTable.tsx';
+import ToolCard from '../../components/ToolCard.astro';
+import FAQ from '../../components/FAQ.astro';
+import TopPick from '../../components/TopPick.astro';
+import ProductListItem from '../../components/ProductListItem.astro';
+import { abogadosTools, productList, faqItems, IMAGES } from '../../data/abogados.ts';
+
+La **IA para abogados** ya no es experimental: despachos de todo el mundo la usan para investigar jurisprudencia, redactar contratos, resumir expedientes y acelerar tareas repetitivas. Pero no todas las herramientas sirven para **derecho español**, ni todas garantizan el nivel de precisión que exige la deontología profesional.
+
+Hemos evaluado **8 plataformas** según especialización legal, soporte en español, precio y utilidad real en el día a día de un despacho.
+
+## Nuestra recomendación principal
+
+<TopPick
+	name="vLex"
+	title="vLex — La IA legal más completa para España y LATAM"
+	description="Combina legislación, jurisprudencia y Vincent (su asistente IA) en una sola plataforma. Es la opción más sólida si ejerces derecho en España o Latinoamérica."
+	rating={4.6}
+	price="Desde ~€30/mes"
+	url="https://vlex.es"
+	image={IMAGES.vlex}
+	imageAlt="vLex plataforma jurídica con inteligencia artificial"
+	pros={[
+		'Legislación y jurisprudencia española actualizada',
+		'Asistente Vincent integrado',
+		'Interfaz en español',
+		'Cobertura LATAM',
+	]}
+/>
+
+## Ranking: las 8 mejores IA para abogados
+
+{
+	productList.map((product) => (
+		<ProductListItem
+			rank={product.rank}
+			name={product.name}
+			description={product.description}
+			rating={product.rating}
+			price={product.price}
+			url={product.url}
+			image={product.image}
+			imageAlt={product.imageAlt}
+			badge={product.badge}
+			highlight={product.highlight}
+		/>
+	))
+}
+
+## ¿Para qué usa un abogado la inteligencia artificial?
+
+Las aplicaciones más comunes en 2026:
+
+1. **Investigación jurídica** — localizar sentencias, artículos y doctrina relevante.
+2. **Redacción de contratos** — borradores de cláusulas, NDAs, contratos laborales.
+3. **Resumen de expedientes** — condensar autos, informes periciales o documentación voluminosa.
+4. **Due diligence** — revisión inicial de documentación en operaciones M&A.
+5. **Comunicación con clientes** — emails, informes de estado del caso (siempre revisados).
+
+> **Importante:** la IA es un asistente, no un sustituto. El abogado titulado sigue siendo responsable de cada escrito, opinión y estrategia.
+
+## Tabla comparativa
+
+<ComparisonTable client:visible tools={abogadosTools} />
+
+## Análisis detallado
+
+### 1. vLex — Derecho español e hispanoamericano
+
+<ToolCard
+	name="vLex"
+	price="Desde ~€30/mes"
+	badge="Mejor para España"
+	rating={4.6}
+	pros={[
+		'Base de datos jurídica en español',
+		'Asistente Vincent con IA generativa',
+		'Jurisprudencia y legislación actualizada',
+		'Usado por despachos y administraciones',
+	]}
+	cons={[
+		'Suscripción de pago obligatoria',
+		'Curva de aprendizaje en funciones avanzadas',
+		'Menos conocido fuera del ámbito hispano',
+	]}
+	url="https://vlex.es"
+/>
+
+**Mejor para:** abogados en España, Portugal y Latinoamérica que necesitan fuentes jurídicas fiables en español.
+
+### 2. Spellbook — Redacción de contratos en Word
+
+<ToolCard
+	name="Spellbook"
+	price="Desde $40/mes"
+	rating={4.5}
+	pros={[
+		'Integración nativa con Microsoft Word',
+		'Sugiere y revisa cláusulas contractuales',
+		'Detecta inconsistencias en el documento',
+		'Muy valorado en derecho mercantil anglosajón',
+	]}
+	cons={[
+		'Enfocado a common law; adaptar a derecho civil',
+		'Solo en inglés',
+		'Requiere suscripción mensual',
+	]}
+	url="https://www.spellbook.legal"
+/>
+
+Ideal para despachos que redactan muchos contratos y ya trabajan en Word.
+
+### 3. CoCounsel — Investigación con citas verificadas
+
+<ToolCard
+	name="CoCounsel"
+	price="Desde ~$225/mes"
+	rating={4.6}
+	pros={[
+		'Citas jurídicas verificadas automáticamente',
+		'Análisis de documentos y deposiciones',
+		'Respaldado por Thomson Reuters',
+		'Estándar en despachos grandes USA/UK',
+	]}
+	cons={[
+		'Precio elevado para despachos pequeños',
+		'Interfaz en inglés',
+		'Menos relevante para derecho español puro',
+	]}
+	url="https://cocounsel.thomsonreuters.com"
+/>
+
+### 4. ChatGPT Plus y Claude Pro — Herramientas generalistas
+
+Para tareas de **borrador, resumen y lluvia de ideas**, ChatGPT y Claude son útiles si diseñas prompts específicos:
+
+- «Resume este auto judicial en 5 puntos clave»
+- «Redacta una cláusula de confidencialidad para una startup tech en España»
+- «Identifica riesgos en este contrato de arrendamiento»
+
+**Siempre revisa** citas, artículos de ley y conclusiones. Estas herramientas pueden alucinar referencias jurídicas.
+
+## Cómo elegir según tu perfil
+
+| Perfil | Herramienta recomendada | Por qué |
+| --- | --- | --- |
+| Abogado en España | **vLex** | Legislación y jurisprudencia local |
+| Redactor de contratos | **Spellbook** | Integración Word |
+| Despacho internacional | **CoCounsel** o **Harvey AI** | Investigación enterprise |
+| Presupuesto ajustado | **ChatGPT** / **Claude** | Versátiles con revisión humana |
+| Gestión de casos | **Notion AI** | Notas, plazos y documentación |
+
+## Buenas prácticas y deontología
+
+**No subas datos identificables de clientes** a herramientas gratuitas sin revisar la política de privacidad. Usa planes empresariales con cláusulas de confidencialidad cuando manejes expedientes sensibles.
+
+**Verifica cada cita.** La IA puede inventar sentencias o artículos. Comprueba en la fuente oficial antes de citar en un escrito.
+
+**Documenta tu flujo.** Si tu colegio de abogados o despacho tiene protocolos sobre IA, síguelos. La tecnología avanza más rápido que la normativa, pero la responsabilidad profesional es tuya.
+
+## Conclusión
+
+Para **derecho en español**, **vLex** es la referencia. Para **contratos en Word**, prueba **Spellbook**. Y para **tareas generales con presupuesto limitado**, **ChatGPT Plus** o **Claude Pro** son excelentes asistentes — siempre con revisión humana obligatoria.
+
+<FAQ items={faqItems} />

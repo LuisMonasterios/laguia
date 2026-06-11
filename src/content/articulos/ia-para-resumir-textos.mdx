@@ -1,0 +1,188 @@
+---
+title: 'Las 8 mejores IA para resumir textos en 2026 (PDFs, artículos y vídeos)'
+description: 'Comparativa de 8 herramientas de IA para resumir textos, PDFs, papers académicos y vídeos. Gratis y de pago, con tabla interactiva.'
+pubDate: 2026-06-07
+updatedDate: 2026-06-07
+category: productividad
+tags:
+  - ia para resumir textos
+  - resumir pdf ia
+  - resumidor de textos
+  - inteligencia artificial resumen
+  - productividad
+draft: false
+featured: false
+readingTime: 11
+image: 'https://images.unsplash.com/photo-1456513087680-859f7b0372d2?w=1200&h=500&fit=crop'
+imageAlt: 'Persona leyendo documentos resumidos con ayuda de inteligencia artificial'
+affiliateDisclosure: true
+---
+
+import ComparisonTable from '../../components/ComparisonTable.tsx';
+import ToolCard from '../../components/ToolCard.astro';
+import FAQ from '../../components/FAQ.astro';
+import TopPick from '../../components/TopPick.astro';
+import ProductListItem from '../../components/ProductListItem.astro';
+import { resumirTools, productList, faqItems, IMAGES } from '../../data/resumir-textos.ts';
+
+¿Cuántas horas pierdes leyendo informes, papers o emails extensos? Las herramientas de **IA para resumir textos** condensan documentos de decenas de páginas en puntos clave en segundos — pero no todas mantienen la precisión ni funcionan bien en español.
+
+Comparamos **8 resumidores** para PDFs, artículos web, documentos académicos e incluso vídeos de YouTube.
+
+## Nuestra recomendación principal
+
+<TopPick
+	name="NotebookLM"
+	title="NotebookLM — El mejor resumidor gratuito de Google"
+	description="Sube PDFs, informes o apuntes y obtén resúmenes, preguntas frecuentes y audio-resumen. Gratis y sorprendentemente preciso."
+	rating={4.7}
+	price="Gratuito"
+	url="https://notebooklm.google.com"
+	image={IMAGES.notebooklm}
+	imageAlt="NotebookLM resumiendo documentos con inteligencia artificial"
+	pros={[
+		'100% gratuito con cuenta Google',
+		'Resume PDFs extensos',
+		'Genera FAQs y mapas mentales',
+		'Funciona en español',
+	]}
+/>
+
+## Ranking: las 8 mejores IA para resumir textos
+
+{
+	productList.map((product) => (
+		<ProductListItem
+			rank={product.rank}
+			name={product.name}
+			description={product.description}
+			rating={product.rating}
+			price={product.price}
+			url={product.url}
+			image={product.image}
+			imageAlt={product.imageAlt}
+			badge={product.badge}
+			highlight={product.highlight}
+		/>
+	))
+}
+
+## Tipos de resumen que puedes obtener
+
+| Formato | Herramienta ideal | Ejemplo de uso |
+| --- | --- | --- |
+| PDF largo | **NotebookLM**, **Claude** | Informe anual de 80 páginas |
+| Artículo web | **Wordtune Read**, **TLDR This** | Noticia o post de blog |
+| Paper académico | **Scholarcy** | Estudio científico |
+| Vídeo YouTube | **Summarize.tech** | Conferencia o tutorial |
+| Email / informe corto | **QuillBot**, **ChatGPT** | Resumen ejecutivo |
+
+## Tabla comparativa
+
+<ComparisonTable client:visible tools={resumirTools} />
+
+## Análisis detallado
+
+### 1. NotebookLM — Documentos y PDFs
+
+<ToolCard
+	name="NotebookLM"
+	price="Gratuito"
+	badge="Mejor gratis"
+	rating={4.7}
+	pros={[
+		'Sube múltiples fuentes y cruza información',
+		'Resúmenes, FAQs y guías de estudio',
+		'Audio Overview: resumen en formato podcast',
+		'Sin límite estricto en documentos pequeños',
+	]}
+	cons={[
+		'Requiere cuenta Google',
+		'Solo disponible en algunos países',
+		'No resume URLs directamente',
+	]}
+	url="https://notebooklm.google.com"
+/>
+
+**Cómo usarlo:** crea un cuaderno, sube tus PDFs y pregunta «Resume los 5 puntos clave» o «¿Cuáles son las conclusiones del documento 2?».
+
+### 2. Claude — Textos muy largos
+
+<ToolCard
+	name="Claude"
+	price="Gratis / Pro $20/mes"
+	rating={4.6}
+	pros={[
+		'Ventana de contexto enorme (cientos de páginas)',
+		'Excelente comprensión de matices',
+		'Sube PDFs directamente',
+		'Respuestas estructuradas y claras',
+	]}
+	cons={[
+		'Límites en plan gratuito',
+		'Sin mapas mentales como NotebookLM',
+	]}
+	url="https://claude.ai"
+/>
+
+Ideal para **contratos, informes legales o tesis** donde perder un matiz importa.
+
+### 3. QuillBot — Párrafos y textos cortos
+
+<ToolCard
+	name="QuillBot"
+	price="Gratis / Premium $9.95/mes"
+	rating={4.3}
+	pros={[
+		'Resumidor integrado en editor online',
+		'Controla longitud del resumen (slider)',
+		'También parafrasea y corrige gramática',
+		'Extensión de navegador',
+	]}
+	cons={[
+		'Límite de palabras en plan free',
+		'Menos potente con documentos largos',
+	]}
+	url="https://quillbot.com"
+/>
+
+### 4. Scholarcy — Papers académicos
+
+<ToolCard
+	name="Scholarcy"
+	price="Gratis / Pro $9.99/mes"
+	rating={4.4}
+	pros={[
+		'Extrae métodos, resultados y conclusiones',
+		'Genera fichas de referencia automáticas',
+		'Extensión para Chrome',
+		'Ideal para investigadores',
+	]}
+	cons={[
+		'Enfocado a academia, no a uso general',
+		'Interfaz en inglés',
+	]}
+	url="https://www.scholarcy.com"
+/>
+
+## Prompts efectivos para resumir con IA
+
+```
+Resume este texto en 5 viñetas con los puntos más importantes.
+Mantén cifras y fechas exactas. Responde en español.
+```
+
+```
+Actúa como analista senior. Lee este informe y genera:
+1) Resumen ejecutivo (100 palabras)
+2) 3 riesgos identificados
+3) 3 oportunidades
+```
+
+Cuanto más específico sea tu prompt, mejor el resultado.
+
+## Conclusión
+
+Para **PDFs y documentos largos gratis**, empieza con **NotebookLM**. Para **máxima precisión en textos extensos**, usa **Claude Pro**. Para **párrafos sueltos y emails**, **QuillBot** es rápido y barato. Y para **papers científicos**, **Scholarcy** ahorra horas de lectura.
+
+<FAQ items={faqItems} />
