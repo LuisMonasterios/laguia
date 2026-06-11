@@ -1,9 +1,7 @@
 /** OAuth GitHub — inicio del flujo para Decap CMS */
 
-function getRequestOrigin(req) {
-	const proto = req.headers['x-forwarded-proto'] || 'https';
-	const host = req.headers['x-forwarded-host'] || req.headers.host;
-	return `${proto}://${host}`.replace(/\/$/, '');
+function getCanonicalOrigin() {
+	return (process.env.SITE_URL || 'https://www.laguia.tech').replace(/\/$/, '');
 }
 
 export default function handler(req, res) {
@@ -14,7 +12,7 @@ export default function handler(req, res) {
 		return;
 	}
 
-	const redirectUri = `${getRequestOrigin(req)}/api/callback`;
+	const redirectUri = `${getCanonicalOrigin()}/api/callback`;
 	const params = new URLSearchParams({
 		client_id: clientId,
 		redirect_uri: redirectUri,

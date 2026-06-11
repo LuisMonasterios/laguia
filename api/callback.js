@@ -1,12 +1,11 @@
 /** OAuth GitHub — callback para Decap CMS */
 
-function getRequestOrigin(req) {
-	const proto = req.headers['x-forwarded-proto'] || 'https';
-	const host = req.headers['x-forwarded-host'] || req.headers.host;
-	return `${proto}://${host}`.replace(/\/$/, '');
+function getCanonicalOrigin() {
+	return (process.env.SITE_URL || 'https://www.laguia.tech').replace(/\/$/, '');
 }
 
-function loginScript(token, parentOrigin) {
+function loginScript(token) {
+	const canonicalOrigin = getCanonicalOrigin();
 	return `<!doctype html>
 <html lang="es">
 <head>
@@ -18,48 +17,43 @@ function loginScript(token, parentOrigin) {
 	<script>
 (function () {
 	var token = ${JSON.stringify(token)};
-	var parentOrigin = ${JSON.stringify(parentOrigin)};
-	var payload = JSON.stringify({ token: token, provider: 'github' });
-	var msg = 'authorization:github:success:' + payload;
-	var sent = false;
+	var msg =
+		'authorization:github:success:' +
+		JSON.stringify({ token: token, provider: 'github' });
+	var targets = ${JSON.stringify([canonicalOrigin, 'https://laguia.tech', 'https://www.laguia.tech', '*'])};
 
-	function sendToken(origin) {
-		if (sent || !window.opener) return;
-		sent = true;
-		var targets = [origin, parentOrigin, window.location.origin, '*'].filter(Boolean);
-		var seen = {};
+	function deliver() {
+		if (!window.opener) {
+			document.getElementById('status').textContent =
+				'No se pudo conectar con el panel. Cierra esta ventana e inténtalo desde https://www.laguia.tech/admin/';
+			return;
+		}
 		targets.forEach(function (target) {
-			if (seen[target]) return;
-			seen[target] = true;
 			try {
 				window.opener.postMessage(msg, target);
 			} catch (err) {}
 		});
 		document.getElementById('status').textContent = 'Sesión iniciada. Cerrando…';
-		setTimeout(function () {
-			window.close();
-		}, 800);
 	}
 
 	if (!window.opener) {
 		document.getElementById('status').textContent =
-			'No se pudo conectar con el panel CMS. Cierra esta ventana e inténtalo de nuevo.';
+			'No se pudo conectar con el panel. Cierra esta ventana e inténtalo desde https://www.laguia.tech/admin/';
 		return;
 	}
 
-	// Protocolo Decap/Sveltia: el panel responde con "authorizing:github"
-	window.addEventListener(
-		'message',
-		function (e) {
-			if (e.data === 'authorizing:github') {
-				sendToken(e.origin);
-			}
-		},
-		false
-	);
+	window.addEventListener('message', deliver, false);
 
-	// Decap CMS: avisar al panel que el popup está listo
-	window.opener.postMessage('authorizing:github', '*');
+	try {
+		window.opener.postMessage('authorizing:github', '*');
+	} catch (err) {}
+
+	setTimeout(deliver, 250);
+	setTimeout(deliver, 800);
+	setTimeout(function () {
+		deliver();
+		window.close();
+	}, 1500);
 })();
 	</script>
 </body>
@@ -70,8 +64,7 @@ export default async function handler(req, res) {
 	const code = req.query?.code;
 	const clientId = process.env.GITHUB_CLIENT_ID || process.env.OAUTH_GITHUB_CLIENT_ID;
 	const clientSecret = process.env.GITHUB_CLIENT_SECRET || process.env.OAUTH_GITHUB_CLIENT_SECRET;
-	const parentOrigin = getRequestOrigin(req);
-	const redirectUri = `${parentOrigin}/api/callback`;
+	const redirectUri = `${getCanonicalOrigin()}/api/callback`;
 
 	if (!code) {
 		res.status(400).send('Falta el código de autorización de GitHub.');
@@ -112,10 +105,8 @@ export default async function handler(req, res) {
 			return;
 		}
 
-		const html = loginScript(data.access_token, parentOrigin);
-
 		res.setHeader('Content-Type', 'text/html; charset=utf-8');
-		res.status(200).send(html);
+		res.status(200).send(loginScript(data.access_token));
 	} catch {
 		res.status(500).send('Error interno en el callback OAuth.');
 	}
